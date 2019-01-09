@@ -105,7 +105,7 @@ public class DroneViewImpl extends Group implements DroneView {
         }
 */
 
-        if(drone.getCurrentBattery()>15 && drone.getDistanceHospitalDestiny()>0 && commandWasPerformed()
+        if(drone.getCurrentBattery()>10 && drone.getDistanceHospitalDestiny()>0 && commandWasPerformed()
                 && drone.isManual() && !drone.isGoingManualToDestiny()&& !drone.isReturningToHome()
                 && !drone.isBadConnection()
                 && !drone.isSafeLand()){
@@ -114,7 +114,7 @@ public class DroneViewImpl extends Group implements DroneView {
             currentCommand = null;
         }
 
-        if(drone.getCurrentBattery()>15 && drone.getDistanceHospitalDestiny()>0 && drone.isAutomatic() && !drone.isGoingAutomaticToDestiny()
+        if(drone.getCurrentBattery()>10 && drone.getDistanceHospitalDestiny()>0 && drone.isAutomatic() && !drone.isGoingAutomaticToDestiny()
                 && !drone.isReturningToHome() && !drone.isBadConnection() && !drone.isSafeLand()){
 
             goDestinyAutomatic();
@@ -239,7 +239,6 @@ public class DroneViewImpl extends Group implements DroneView {
 
 
         }else if(isDirectionKeys(currentCommand)){
-
             if(drone.isTookOff()){
 
                 flyingFromKeyBoard(currentCommand);
@@ -247,29 +246,6 @@ public class DroneViewImpl extends Group implements DroneView {
                 updadePositionDroneView();
                 updateBattery();
                 updateItIsOver();
-
-
-               /* if(drone.getDistanceHospitalDestiny() <= 0){
-                    landing();
-
-                    shutDown();
-                    stopBatteryDecrementer();
-
-                    checkAndPrintIfLostDrone();
-
-
-                }
-
-                if(drone.getCurrentBattery() <= 5){
-                    safeLanding();
-
-                    shutDown();
-                    stopBatteryDecrementer();
-
-                    checkAndPrintIfLostDrone();
-                }*/
-
-
 
 
             }
@@ -335,25 +311,74 @@ public class DroneViewImpl extends Group implements DroneView {
         System.out.println("Drone["+drone.getId()+"] "+"Flying");
         loggerController.print("Drone["+drone.getId()+"] "+"Flying");
 
+        // irregular moviments
+        if(drone.isEconomyMode()){
+            Random random = new Random();
+             double value = random.nextDouble();
 
-        if(keyCode == KeyCode.D){
-           flyingRight();
+             // right moviments
+             if(value>0.8){
+                 if(keyCode == KeyCode.D){
+                     flyingRight();
+                 }
+                 else if(keyCode == KeyCode.A){
+                     flyingLeft();
+                 }
+                 else if(keyCode == KeyCode.W){
+                     flyingUp();
+                 }
+                 else if(keyCode == KeyCode.S){
+                     flyingDown();
+                 }
+             }else {
+                 //wrong moviments
+
+                 int randomNum = 0 + (int) (Math.random() * 4);
+                 System.out.println("Random number " + randomNum);
+
+                 if(randomNum==0){
+                     flyingRight();
+                 }
+                 else if(randomNum==1){
+                     flyingLeft();
+                 }
+                 else if(randomNum==2){
+                     flyingUp();
+                 }
+                 else if( randomNum==3){
+                     flyingDown();
+                 }
+             }
+
+
+        }else {
+            // normal moviment
+            if(keyCode == KeyCode.D){
+                flyingRight();
+            }
+            else if(keyCode == KeyCode.A){
+                flyingLeft();
+            }
+            else if(keyCode == KeyCode.W){
+                flyingUp();
+            }
+            else if(keyCode == KeyCode.S){
+                flyingDown();
+            }
         }
-        else if(keyCode == KeyCode.A){
-           flyingLeft();
-        }
-        else if(keyCode == KeyCode.W){
-            flyingUp();
-        }
-        else if(keyCode == KeyCode.S){
-           flyingDown();
-        }
+
+
     }
 
     public void flyingDown( ) {
         int newI =  drone.getCurrentPositionI();
         int newJ = drone.getCurrentPositionJ();
         newI = newI+1;
+
+        if(newI>7 || newI <0){
+            return;
+        }
+
 
         drone.setCurrentPositionI(newI);
     }
@@ -363,6 +388,10 @@ public class DroneViewImpl extends Group implements DroneView {
         int newJ = drone.getCurrentPositionJ();
         newI = newI-1;
 
+        if(newI>7 || newI <0){
+            return;
+        }
+
         drone.setCurrentPositionI(newI);
     }
 
@@ -370,6 +399,10 @@ public class DroneViewImpl extends Group implements DroneView {
         int newI =  drone.getCurrentPositionI();
         int newJ = drone.getCurrentPositionJ();
         newJ = newJ -1;
+
+        if(newJ>19 || newJ <0){
+            return;
+        }
         drone.setCurrentPositionJ(newJ);
     }
 
@@ -378,6 +411,10 @@ public class DroneViewImpl extends Group implements DroneView {
         int newJ = drone.getCurrentPositionJ();
 
         newJ = newJ +1;
+
+        if(newJ>19 || newJ <0){
+            return;
+        }
         drone.setCurrentPositionJ(newJ);
     }
 
@@ -671,6 +708,7 @@ public class DroneViewImpl extends Group implements DroneView {
                         drone.setCurrentPositionJ(oldJ);
 
 
+
                         goTo(mustGO);
 
                         updadePositionDroneView();
@@ -926,23 +964,75 @@ public class DroneViewImpl extends Group implements DroneView {
 
     public void goTo(String mustGO) {
 
-        switch (mustGO){
-            case "->":
-                flyingRight();
-                break;
+        //irregular moviments
+        if(drone.isEconomyMode()){
+            Random random = new Random();
+            double value = random.nextDouble();
 
-            case "<-":
-                flyingLeft();
-                break;
+            // right moviments
+            if(value>0.8){
+                switch (mustGO){
+                    case "->":
+                        flyingRight();
+                        break;
 
-            case "/\\":
-              flyingUp();
-                break;
+                    case "<-":
+                        flyingLeft();
+                        break;
 
-            case "\\/":
-              flyingDown();
-                break;
+                    case "/\\":
+                        flyingUp();
+                        break;
+
+                    case "\\/":
+                        flyingDown();
+                        break;
+                }
+            }else {
+            //wrong moviments
+
+            int randomNum = 0 + (int) (Math.random() * 4);
+
+                switch (randomNum){
+                    case 0:
+                        flyingRight();
+                        break;
+
+                    case 1:
+                        flyingLeft();
+                        break;
+
+                    case 2:
+                        flyingUp();
+                        break;
+
+                    case 3:
+                        flyingDown();
+                        break;
+                }
+
         }
+
+       // normal moviments
+    }else {
+            switch (mustGO){
+                case "->":
+                    flyingRight();
+                    break;
+
+                case "<-":
+                    flyingLeft();
+                    break;
+
+                case "/\\":
+                    flyingUp();
+                    break;
+
+                case "\\/":
+                    flyingDown();
+                    break;
+            }
+    }
     }
 
     public double distanceDroneWentUp(Hospital hospital) {
