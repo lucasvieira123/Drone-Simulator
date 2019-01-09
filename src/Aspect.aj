@@ -1,6 +1,3 @@
-package controller;
-
-
 import javafx.application.Platform;
 import model.Drone;
 import view.DroneViewImpl;
@@ -18,7 +15,8 @@ public aspect Aspect {
             ((Drone)((DroneViewImpl) thisJoinPoint.getTarget()).getDrone()).getDistanceHospitalDestiny() <=60
             &&
             ((Drone)((DroneViewImpl) thisJoinPoint.getTarget()).getDrone()).isStrongWind()
-
+            &&
+            ((Drone)((DroneViewImpl) thisJoinPoint.getTarget()).getDrone()).isAspect()
             ){
 
         System.out.println(" inicio Aspect around");
@@ -40,8 +38,11 @@ public aspect Aspect {
     }
 
 
-   void around() : safeLanding() && if(
-            ((Drone)((DroneViewImpl) thisJoinPoint.getTarget()).getDrone()).isOnWater()){
+    void around() : safeLanding() && if(
+            ((Drone)((DroneViewImpl) thisJoinPoint.getTarget()).getDrone()).isOnWater()
+            &&
+            ((Drone)((DroneViewImpl) thisJoinPoint.getTarget()).getDrone()).isAspect()
+            ) {
 
         System.out.println(" inicio Aspect around");
         DroneViewImpl droneView = (DroneViewImpl) thisJoinPoint.getTarget();
@@ -53,9 +54,9 @@ public aspect Aspect {
         System.out.println("drone.isStrongWind() "+drone.isStrongWind());
         System.out.println("drone.isAutomatic() "+drone.isAutomatic());
 
-      //  if(drone.isOnWater() && drone.getDistanceHospitalDestiny()>=60) {
-            moveASide(droneView);
-      //  }
+        //  if(drone.isOnWater() && drone.getDistanceHospitalDestiny()>=60) {
+        moveASide(droneView);
+        //  }
 
         System.out.println("fim Aspect");
 
@@ -133,13 +134,13 @@ public aspect Aspect {
 
         drone.setTookOff(false);
 
-        System.out.println("Drone["+drone.getId()+"] "+"SafeLand");
-        droneView.loggerController.print("Drone["+drone.getId()+"] "+"SafeLand");
+        System.out.println("Drone["+drone.getId()+"] "+"SafeLandASpect");
+        droneView.loggerController.print("Drone["+drone.getId()+"] "+"SafeLandASpect");
 
         droneView.applyStyleLanded();
 
         System.out.println("Drone["+drone.getId()+"] "+"LandedASpect");
-        droneView.loggerController.print("Drone["+drone.getId()+"] "+"Landed");
+        droneView.loggerController.print("Drone["+drone.getId()+"] "+"LandedASpect");
 
         droneView.shutDown();
 
@@ -149,13 +150,13 @@ public aspect Aspect {
 
     private void keepFlying(DroneViewImpl droneView) {
 
-       /* Thread mainThread = Thread.currentThread();*/
+        /* Thread mainThread = Thread.currentThread();*/
 
-         Drone drone = (Drone) droneView.getDrone();
+        Drone drone = (Drone) droneView.getDrone();
 
-         if(drone.isGoingAutomaticToDestiny()){
-             droneView.stopGoAutomaticDestiny();
-         }
+        if(drone.isGoingAutomaticToDestiny()){
+            droneView.stopGoAutomaticDestiny();
+        }
 
 
         System.out.println("Drone[" + drone.getId() + "] " + "keep Flying");
@@ -177,11 +178,13 @@ public aspect Aspect {
 
                 }
 
-                if (drone.getDistanceHospitalDestiny() <= 0) {
-                    droneView.applyStyleLanded();
+                if (drone.getDistanceHospitalDestiny() == 0) {
+                    droneView.landing();
+
                     droneView.shutDown();
-                    System.out.println("Drone["+drone.getId()+"] "+"Arrived at destination");
-                    droneView.loggerController.print("Drone["+drone.getId()+"] "+"Arrived at destination");
+
+                    System.out.println("Drone["+drone.getId()+"] "+"Arrived at destination aspect");
+                    droneView.loggerController.print("Drone["+drone.getId()+"] "+"Arrived at destination aspect");
                     cancel();
                     return;
 
@@ -250,15 +253,16 @@ public aspect Aspect {
 
                         }
 
-                        if (drone.getDistanceHospitalDestiny() <= 0) {
-                            droneView.applyStyleLanded();
+                        if (drone.getDistanceHospitalDestiny() == 0) {
+                            droneView.landing();
+
                             droneView.shutDown();
 
-                            System.out.println("Drone["+drone.getId()+"] "+"Arrived at destination");
-                            droneView.loggerController.print("Drone["+drone.getId()+"] "+"Arrived at destination");
-
+                            System.out.println("Drone["+drone.getId()+"] "+"Arrived at destination aspect");
+                            droneView.loggerController.print("Drone["+drone.getId()+"] "+"Arrived at destination aspect");
                             cancel();
                             return;
+
                         }
 
 
@@ -283,22 +287,23 @@ public aspect Aspect {
 
 
     pointcut applyEconimicMode() : call (void view.DroneViewImpl.applyEconomyMode());
-    void around() : applyEconimicMode()
+    void around() : applyEconimicMode() &&
+            if(((Drone)((DroneViewImpl) thisJoinPoint.getTarget()).getDrone()).isAspect())
             {
 
 
-        System.out.println(" Inicio Aspect");
-        DroneViewImpl droneView = (DroneViewImpl) thisJoinPoint.getTarget();
-        Drone drone = (Drone) droneView.getDrone();
-        System.out.println("drone.isOnWater() "+drone.isOnWater());
-        System.out.println("getDistanceHospitalDestiny() "+drone.getDistanceHospitalDestiny());
-        System.out.println("drone.isStrongWind() "+drone.isStrongWind());
-        System.out.println("drone.isAutomatic() "+drone.isAutomatic());
+                System.out.println(" Inicio Aspect");
+                DroneViewImpl droneView = (DroneViewImpl) thisJoinPoint.getTarget();
+                Drone drone = (Drone) droneView.getDrone();
+                System.out.println("drone.isOnWater() "+drone.isOnWater());
+                System.out.println("getDistanceHospitalDestiny() "+drone.getDistanceHospitalDestiny());
+                System.out.println("drone.isStrongWind() "+drone.isStrongWind());
+                System.out.println("drone.isAutomatic() "+drone.isAutomatic());
 
-        normalMode(droneView);
+                normalMode(droneView);
 
-        System.out.println(" Fim Aspect");
-    }
+                System.out.println(" Fim Aspect");
+            }
 
     private void normalMode(DroneViewImpl droneView) {
         Drone drone = (Drone) droneView.getDrone();
@@ -314,7 +319,7 @@ public aspect Aspect {
 
     pointcut returnToHome() : call (void view.DroneViewImpl.returnToHome());
     void around() : returnToHome() &&
-    if(
+            if(
             (
             ((Drone)((DroneViewImpl) thisJoinPoint.getTarget()).getDrone()).getDistanceHospitalDestiny()
             <
@@ -324,8 +329,9 @@ public aspect Aspect {
             ((Drone)((DroneViewImpl) thisJoinPoint.getTarget()).getDrone()).getCurrentBattery()
             >
             10
-
-     ) {
+            &&
+            ((Drone)((DroneViewImpl) thisJoinPoint.getTarget()).getDrone()).isAspect()
+            ) {
 
         DroneViewImpl droneView = (DroneViewImpl) thisJoinPoint.getTarget();
 

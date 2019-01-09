@@ -25,12 +25,12 @@
          </children></AnchorPane>
       <AnchorPane fx:id="settingsAnchorPane" layoutY="241.0" prefHeight="314.0" prefWidth="600.0">
          <children>
-            <ToggleButton fx:id="startToggleButton" disable="true" layoutX="547.0" layoutY="246.0" mnemonicParsing="false" text="Ready" />
+            <ToggleButton fx:id="startToggleButton" disable="false" layoutX="547.0" layoutY="246.0" mnemonicParsing="false" text="Ready" />
             <TextField fx:id="initialBatteryTextView" disable="true" layoutX="537.0" layoutY="110.0" prefHeight="26.0" prefWidth="52.0" promptText="100%" />
             <Label fx:id="initialBatteryLabel" disable="true" layoutX="414.0" layoutY="114.0" text="Initial Battery:" />
 
             
-                        <ToggleButton fx:id="riverToggleButton" layoutX="2.0" layoutY="5.0" selected="true" text="River">
+                        <ToggleButton fx:id="riverToggleButton" layoutX="2.0" layoutY="5.0" selected="false" text="River">
 
             </ToggleButton>
             <ToggleButton fx:id="hospitalToggleButton" layoutX="56.0" layoutY="5.0" prefHeight="26.0" prefWidth="76.0" text="Hospital">
@@ -52,7 +52,7 @@
             <RadioButton fx:id="randomStrongWindRadioButton" layoutX="186.0" layoutY="84.0" mnemonicParsing="false" text="Random" />
             <Label fx:id="strongWindLabel" layoutX="4.0" layoutY="83.0" text="Strong Wind:" />
             <CheckBox fx:id="automaticCheckBox" disable="true" layoutX="496.0" layoutY="155.0" mnemonicParsing="false" text="Automatic" />
-            <ToggleButton fx:id="restartToggleButton" disable="true" layoutX="478.0" layoutY="246.0" mnemonicParsing="false" text="Restart" />
+            <ToggleButton fx:id="restartToggleButton" disable="false" layoutX="478.0" layoutY="246.0" mnemonicParsing="false" text="Restart" />
             <Label fx:id="currentDroneLabel" disable="true" layoutX="391.0" layoutY="15.0" text="Current Drone (ID):" />
             <TextField fx:id="currentDroneTextField" disable="true" layoutX="531.0" layoutY="9.0" prefHeight="26.0" prefWidth="58.0" />
             <Button fx:id="saveButton" disable="true" layoutX="541.0" layoutY="204.0" mnemonicParsing="false" text="Save" />

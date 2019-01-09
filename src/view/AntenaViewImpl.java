@@ -25,7 +25,7 @@ public class AntenaViewImpl extends Group implements AntenaView {
     public AntenaViewImpl(Cell cellSelected) {
         EnvironmentView environmentView = cellSelected.getEnvironmentView();
 
-       getBadConnectionArea(cellSelected);
+        getBadConnectionArea(cellSelected);
 
 
         COUNT_ANTENNA++;
@@ -51,7 +51,7 @@ public class AntenaViewImpl extends Group implements AntenaView {
 
         cellSelected.getChildren().add(this);
 
-        addbadConnectionInSpecificArea();
+        //addbadConnectionInSpecificArea();
     }
 
     private void getBadConnectionArea( Cell cellSelected) {
@@ -71,46 +71,29 @@ public class AntenaViewImpl extends Group implements AntenaView {
         cellList.add(environmentView.getCellFrom(i+1,j+1));
     }
 
-    private void addbadConnectionInSpecificArea() {
+    public void addbadConnectionInSpecificArea(double randomDouble) {
 
+        Platform.runLater(() -> {
 
-        Timer timer = new Timer();
-        timer.scheduleAtFixedRate(new TimerTask() {
-            @Override
-            public void run() {
-                Random random = new Random();
-                double randomDouble = random.nextDouble();
+            if(randomDouble>0.75){
+                for(Cell cell : cellList){
+                    cell.setBadConnection(true);
+                }
 
+                imageView2.setVisible(true);
+            }else {
+                for(Cell cell : cellList){
+                    cell.setBadConnection(false);
+                }
 
-
-                    Platform.runLater(() -> {
-
-                        if(randomDouble>0.6){
-                            for(Cell cell : cellList){
-                                cell.setBadConnection(true);
-                            }
-
-                            imageView2.setVisible(true);
-                        }else {
-                            for(Cell cell : cellList){
-                                cell.setBadConnection(false);
-                            }
-
-                            imageView2.setVisible(false);
-                        }
-
-
-
-
-                    });
-
-
-
-
-
-
+                imageView2.setVisible(false);
             }
-        }, 0, 2000);
+
+
+
+
+        });
+
     }
 
 

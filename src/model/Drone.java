@@ -39,7 +39,15 @@ public class Drone {
     private boolean goingAutomaticToDestiny;
     private boolean returningToHome;
     private boolean safeland;
+    private  boolean isAspect;
 
+    public boolean isAspect() {
+        return isAspect;
+    }
+
+    public void setAspect(boolean aspect) {
+        isAspect = aspect;
+    }
 
     public Boolean getBadConnection() {
         return isBadConnection;
