@@ -1,6 +1,3 @@
-package controller;
-
-
 import javafx.application.Platform;
 import model.Drone;
 import view.DroneViewImpl;
