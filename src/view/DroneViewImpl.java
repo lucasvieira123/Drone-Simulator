@@ -927,7 +927,7 @@ public class DroneViewImpl extends Group implements DroneView {
 
     }
 
-    void goTo(String mustGO) {
+    public void goTo(String mustGO) {
 
         switch (mustGO){
             case "->":
