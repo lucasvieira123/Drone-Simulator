@@ -277,13 +277,14 @@ public class DroneViewImpl extends Group implements DroneView {
     }
 
     public void checkAndPrintIfLostDrone() {
+        System.out.println("drone.getDistanceHospitalDestiny():"+ drone.getDistanceHospitalDestiny() );
 
         if(drone.isReturningToHome() && drone.getDistanceHospitalSource()==0){
-            System.out.println("Drone["+drone.getId()+"] "+"Return to home completed successfully ");
-            loggerController.print("Drone["+drone.getId()+"] "+"Return to home completed successfully ");
+            System.out.println("Drone["+drone.getId()+"] "+"Return to home completed successfully");
+            loggerController.print("Drone["+drone.getId()+"] "+"Return to home completed successfully");
             return;
         }
-        if(drone.isGoingAutomaticToDestiny() && drone.getDistanceHospitalDestiny() ==0){
+        if(drone.getDistanceHospitalDestiny() == 0){
             System.out.println("Drone["+drone.getId()+"] "+"Arrived at destination");
             loggerController.print("Drone["+drone.getId()+"] "+"Arrived at destination");
             return;
@@ -299,8 +300,8 @@ public class DroneViewImpl extends Group implements DroneView {
             System.out.println("Drone["+drone.getId()+"] "+"Drone landed on water");
             loggerController.print("Drone["+drone.getId()+"] "+"Drone landed on water");
         }else {
-            System.out.println("Drone["+drone.getId()+"] "+"Drone landed sucessfully");
-            loggerController.print("Drone["+drone.getId()+"] "+"Drone landed sucessfully");
+            System.out.println("Drone["+drone.getId()+"] "+"Drone landed successfully");
+            loggerController.print("Drone["+drone.getId()+"] "+"Drone landed successfully");
         }
 
 
@@ -533,15 +534,28 @@ public class DroneViewImpl extends Group implements DroneView {
     }
 
     synchronized public void updadePositionDroneView() {
-        currentCell.getChildren().remove(this);
+
+        if(currentCell== null){
+            return;
+        }
+
+        if(currentCell!= null &&currentCell.getChildren()!= null){
+            if(currentCell.getChildren().contains(this)){
+                currentCell.getChildren().remove(this);
+            }
+        }
+
 
         System.out.println((drone.getCurrentPositionI()+" "+drone.getCurrentPositionJ()));
         Cell newCell = environmentView.getCellFrom(drone.getCurrentPositionI(),drone.getCurrentPositionJ());
         currentCell = newCell;
 
-        if(!currentCell.getChildren().contains(this)){
-            currentCell.getChildren().add(this);
+        if(currentCell!= null && currentCell.getChildren()!= null){
+            if(!currentCell.getChildren().contains(this)){
+                currentCell.getChildren().add(this);
+            }
         }
+
 
         updateDistances();
 
@@ -567,7 +581,13 @@ public class DroneViewImpl extends Group implements DroneView {
 
     synchronized public Node updateItIsOver() {
 
+        if(currentCell== null){
+             return null;
+        }
+
         drone.getOnTopOfList().clear();
+
+
 
         for(Node node :currentCell.getChildren()){
 
