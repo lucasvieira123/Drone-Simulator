@@ -178,7 +178,6 @@ public class DroneViewImpl extends Group implements DroneView {
         if(drone.getCurrentBattery() <= 15){
             applyEconomyMode();
         }
-
         if(drone.getCurrentBattery() <= 10 && drone.getDistanceHospitalDestiny()>0 && !drone.isSafeLand()){
             stopGoAutomaticDestiny();
             stopBatteryDecrementer();
