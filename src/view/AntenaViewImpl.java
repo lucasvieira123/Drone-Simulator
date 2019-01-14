@@ -81,6 +81,7 @@ public class AntenaViewImpl extends Group implements AntenaView {
                 }
 
                 imageView2.setVisible(true);
+
             }else {
                 for(Cell cell : cellList){
                     cell.setBadConnection(false);
