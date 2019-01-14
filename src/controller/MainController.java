@@ -192,6 +192,7 @@ public class MainController extends Application {
 
 
 
+
         // FIM CENÁRIO 1
         AntenaViewImpl antenaView1 = new AntenaViewImpl(environmentView.getCellFrom(3,10));
         antennaViews.add(antenaView1);
@@ -352,7 +353,7 @@ public class MainController extends Application {
             }
 
 
-        }, 3000, 5000);
+        }, 1000, 3000);
 
 
 
