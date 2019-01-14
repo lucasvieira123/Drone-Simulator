@@ -375,7 +375,7 @@ public class DroneViewImpl extends Group implements DroneView {
         int newJ = drone.getCurrentPositionJ();
         newI = newI+1;
 
-        if(newI>7 || newI <0){
+        if(newI>11 || newI <0){
             return;
         }
 
@@ -388,7 +388,7 @@ public class DroneViewImpl extends Group implements DroneView {
         int newJ = drone.getCurrentPositionJ();
         newI = newI-1;
 
-        if(newI>7 || newI <0){
+        if(newI>11 || newI <0){
             return;
         }
 
@@ -400,7 +400,7 @@ public class DroneViewImpl extends Group implements DroneView {
         int newJ = drone.getCurrentPositionJ();
         newJ = newJ -1;
 
-        if(newJ>19 || newJ <0){
+        if(newJ>29 || newJ <0){
             return;
         }
         drone.setCurrentPositionJ(newJ);
@@ -412,7 +412,7 @@ public class DroneViewImpl extends Group implements DroneView {
 
         newJ = newJ +1;
 
-        if(newJ>19 || newJ <0){
+        if(newJ>29 || newJ <0){
             return;
         }
         drone.setCurrentPositionJ(newJ);

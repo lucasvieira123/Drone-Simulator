@@ -82,7 +82,7 @@ public class MainController extends Application {
         primaryStage.setTitle("Drone Simulator");
 
 
-        Scene scene = new Scene(rootAnchorPane, 604, 700);
+        Scene scene = new Scene(rootAnchorPane, 903, 650);
 
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -134,7 +134,7 @@ public class MainController extends Application {
         restartToggleButton.setToggleGroup(toggleGroup4);
 
 
-        environmentView = new EnvironmentView(8, 20, environmentAnchorPane);
+        environmentView = new EnvironmentView(12, 30, environmentAnchorPane);
 
 
         // CENÁRIO 1
@@ -190,7 +190,7 @@ public class MainController extends Application {
         riverViews.add(riverView);
 
         boolean isAspect = false;
-        boolean isAutomatic = true;
+        boolean isAutomatic = false;
 
         for(int i =0; i<1; i++){
             DroneViewImpl dv1 = new DroneViewImpl(environmentView.getCellFrom(2,1),(Hospital) hospitalViews.get(0).getHospital(), (Hospital)hospitalViews.get(1).getHospital());
