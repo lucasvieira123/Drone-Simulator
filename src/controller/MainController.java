@@ -137,66 +137,13 @@ public class MainController extends Application {
         environmentView = new EnvironmentView(12, 30, environmentAnchorPane);
 
 
-        // CENÁRIO 1
-
-        HospitalImpl hospitalView = new HospitalImpl(environmentView.getCellFrom(2,0));
-        hospitalViews.add(hospitalView);
-        hospitalView = new HospitalImpl(environmentView.getCellFrom(2,19));
-        hospitalViews.add(hospitalView);
-
-        RiverViewImpl riverView = new RiverViewImpl(environmentView.getCellFrom(2,1));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(2,2));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(2,3));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(2,4));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(2,5));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(3,5));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(3,6));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(3,7));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(3,8));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(2,8));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(2,9));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(2,10));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(2,11));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(2,12));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(2,13));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(2,14));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(3,14));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(3,15));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(3,16));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(3,17));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(2,17));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(2,18));
-        riverViews.add(riverView);
 
 
 
-
-
-        // FIM CENÁRIO 1
-        AntenaViewImpl antenaView1 = new AntenaViewImpl(environmentView.getCellFrom(3,10));
+        // ANTENAS CENÁRIO 1 E CENÁRIO 2
+        AntenaViewImpl antenaView1 = new AntenaViewImpl(environmentView.getCellFrom(3,20));
         antennaViews.add(antenaView1);
-        AntenaViewImpl antenaView2 = new AntenaViewImpl(environmentView.getCellFrom(5,10));
+        AntenaViewImpl antenaView2 = new AntenaViewImpl(environmentView.getCellFrom(9,20));
         antennaViews.add(antenaView2);
 
         Timer timer = new Timer();
@@ -211,64 +158,330 @@ public class MainController extends Application {
             }
         }, 0, 3000);
 
+
+
+
+        // CENÁRIO 1
+
+        HospitalImpl hospitalView = new HospitalImpl(environmentView.getCellFrom(3,0));
+        hospitalViews.add(hospitalView);
+        hospitalView = new HospitalImpl(environmentView.getCellFrom(3,29));
+        hospitalViews.add(hospitalView);
+
+        RiverViewImpl riverView1 = null;
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(3,2));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(3,3));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(4,2));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(4,3));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(4,4));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(4,5));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(4,6));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(4,7));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(5,3));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(5,4));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(5,5));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(3,6));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(3,7));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(3,8));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(2,7));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(2,8));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(2,9));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(2,10));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(2,11));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(2,12));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(1,8));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(1,9));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(1,10));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(1,11));
+        riverViews.add(riverView1);
+
+
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(3,11));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(3,12));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(3,13));
+        riverViews.add(riverView1);
+
+
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(4,12));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(4,13));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(4,14));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(4,15));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(4,16));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(4,17));
+        riverViews.add(riverView1);
+
+
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(5,13));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(5,14));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(5,15));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(5,16));
+        riverViews.add(riverView1);
+
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(3,16));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(3,17));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(3,18));
+        riverViews.add(riverView1);
+
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(2,17));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(2,18));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(2,19));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(2,20));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(2,21));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(2,22));
+        riverViews.add(riverView1);
+
+
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(1,18));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(1,19));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(1,20));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(1,21));
+        riverViews.add(riverView1);
+
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(3,21));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(3,22));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(3,23));
+        riverViews.add(riverView1);
+
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(4,22));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(4,23));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(4,24));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(4,25));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(4,26));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(4,27));
+        riverViews.add(riverView1);
+
+
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(5,23));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(5,24));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(5,25));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(5,26));
+        riverViews.add(riverView1);
+
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(3,26));
+        riverViews.add(riverView1);
+        riverView1 = new RiverViewImpl(environmentView.getCellFrom(3,27));
+        riverViews.add(riverView1);
+
+
+
         // CENÁRIO 2
 
-        hospitalView = new HospitalImpl(environmentView.getCellFrom(6,0));
-        hospitalViews.add(hospitalView);
-        hospitalView = new HospitalImpl(environmentView.getCellFrom(6,19));
-        hospitalViews.add(hospitalView);
+        HospitalImpl hospitalView2 = new HospitalImpl(environmentView.getCellFrom(9,0));
+        hospitalViews.add(hospitalView2);
+        hospitalView = new HospitalImpl(environmentView.getCellFrom(9,29));
+        hospitalViews.add(hospitalView2);
 
-        riverView = new RiverViewImpl(environmentView.getCellFrom(6,1));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(6,2));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(6,3));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(6,4));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(6,5));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(5,5));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(5,6));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(5,7));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(5,8));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(6,8));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(6,9));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(6,10));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(6,11));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(6,12));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(6,13));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(6,14));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(5,14));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(5,15));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(5,16));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(5,17));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(6,17));
-        riverViews.add(riverView);
-        riverView = new RiverViewImpl(environmentView.getCellFrom(6,18));
-        riverViews.add(riverView);
+        RiverViewImpl riverView2 = null;
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(9,2));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(9,3));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(8,2));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(8,3));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(8,4));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(8,5));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(8,6));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(8,7));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(7,3));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(7,4));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(7,5));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(9,6));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(9,7));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(9,8));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(10,7));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(10,8));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(10,9));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(10,10));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(10,11));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(10,12));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(11,8));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(11,9));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(11,10));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(11,11));
+        riverViews.add(riverView2);
+
+
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(9,11));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(9,12));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(9,13));
+        riverViews.add(riverView2);
+
+
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(8,12));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(8,13));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(8,14));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(8,15));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(8,16));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(8,17));
+        riverViews.add(riverView2);
+
+
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(7,13));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(7,14));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(7,15));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(7,16));
+        riverViews.add(riverView2);
+
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(9,16));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(9,17));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(9,18));
+        riverViews.add(riverView2);
+
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(10,17));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(10,18));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(10,19));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(10,20));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(10,21));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(10,22));
+        riverViews.add(riverView2);
+
+
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(11,18));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(11,19));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(11,20));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(11,21));
+        riverViews.add(riverView2);
+
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(9,21));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(9,22));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(9,23));
+        riverViews.add(riverView2);
+
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(8,22));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(8,23));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(8,24));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(8,25));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(8,26));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(8,27));
+        riverViews.add(riverView2);
+
+
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(7,23));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(7,24));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(7,25));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(7,26));
+        riverViews.add(riverView2);
+
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(9,26));
+        riverViews.add(riverView2);
+        riverView2 = new RiverViewImpl(environmentView.getCellFrom(9,27));
+        riverViews.add(riverView2);
+
+
+
+
+
 
 
         final boolean[] isAspect = {false};
         final boolean[] isAutomatic = {true};
         Integer initialBattery = 48;
 
-        Timer timerDrone = new Timer();
+  /*      Timer timerDrone = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -354,18 +567,10 @@ public class MainController extends Application {
 
 
         }, 1000, 3000);
+*/
 
 
 
-        // FIM DO CENÁRIO 2
-
-     /*   Integer initialBattery = 48;
-        int batteryPerBlock =1;
-        for (DroneView currentDV : droneViews) {
-            ((Drone)currentDV.getDrone()).setInitialBattery(initialBattery);
-            ((Drone)currentDV.getDrone()).setCurrentBattery(initialBattery);
-            ((Drone)currentDV.getDrone()).setBatteryPerBlock(batteryPerBlock);
-        }*/
 
         trueStrongWindRadioButton.setOnMouseClicked(event -> {
             stopRandomStrongWind();
