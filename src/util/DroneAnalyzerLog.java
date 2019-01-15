@@ -21,6 +21,30 @@ import java.util.LinkedList;
 import java.util.Map;
 
 public class DroneAnalyzerLog extends Application {
+    private static final String ARRIVED_AT_DESTINATION = "Arrived at destination";
+    private static final String ARRIVED_AT_DESTINATION_ASPECT = "Arrived at destination aspect";
+
+    private static final String KEEP_FLYING_ASPECT = "keep Flying aspect";
+    private static final String MOVE_ASIDE_ASPECT = "Move aside aspect";
+
+    private static final String GLIDE_ASPECT = "Glide aspect";
+    private static final String RETURN_TO_HOME = "Return to Home";
+    private static final String RETURN_TO_HOME_COMPLETED_SUCCESSFULLY = "Return to home completed successfully";
+
+    private static final String CONTINUE_NORMAL_MODE_ASPECT = "Continue Normal Mode aspect";
+    private static final String START_ECONOMY_MODE = "Start Economy Mode";
+
+
+    private static final String SAFE_LAND_ASPECT = "SafeLand aspect";
+    private static final String SAFE_LAND = "SafeLand";
+
+    private static final String DRONE_LANDED_ON_WATER = "Drone landed on water";
+    private static final String DRONE_LANDED_SUCCESSFULLY = "Drone landed successfully";
+    private static final String DRONE_LANDED_SUCCESSFULLY_ASPECT = " Drone landed successfully aspect";
+
+
+
+
     FileChooser fileChooser = new FileChooser();
     File selectedFile;
     @FXML
@@ -35,7 +59,7 @@ public class DroneAnalyzerLog extends Application {
 
     private Map<Integer, LinkedList<String>> logsMap = new HashMap<>();
 
- /*   private int safelandNormalCount = 0;
+   /* private int safelandNormalCount = 0;
     private int landedOnGroundAfterMovingAsideCount = 0;
     private int landedOnWaterCount = 0;
     private int safeLandedWhileReturningToHomeCount;
@@ -44,8 +68,21 @@ public class DroneAnalyzerLog extends Application {
     private int glideAndLandedAtDestinationNormallyCount;
     private int glidedAndLandedAtDestinationByKeepFlyingCount;*/
 
+    private int Landed_at_Destination_Normally;
+    private int Landed_at_Destination_by_Keep_Flying;
+    private int Landed_on_ground;
+    private int Landed_on_ground_after_moving_aside;
+    private int Landed_on_Water;
+    private int Returned_to_Home;
+    private int SafeLanded_while_Returning_to_Home;
+    private int Glided_and_SafeLanded;
+    private int Glided_and_Landed_at_Destination_Normally;
+    private int Glided_and_Landed_at_Destination_by_Keep_Flying;
+    private int Activated_Economy_Mode;
+    private int Activated_Economy_Mode_and_SafeLanded;
 
-    private int arrivedAtDestination_withoutExceptionalScenaries;
+
+  /*  private int arrivedAtDestination_withoutExceptionalScenaries;
 
     private int returnToHome_returntoHomeCompletedSuccessfully;
 
@@ -147,6 +184,7 @@ public class DroneAnalyzerLog extends Application {
 
     private int glide_continueNormalMode_moveAside_droneLandedSucessfully;
 
+*/
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -236,7 +274,7 @@ public class DroneAnalyzerLog extends Application {
                     continue;
                 }
 
-               removeLogsWithBugThread(currentLog,currentDroneIdentifier);
+              // removeLogsWithBugThread(currentLog,currentDroneIdentifier);
 
                 logsMap.get(currentDroneIdentifier).add(currentLog);
 
@@ -260,7 +298,7 @@ public class DroneAnalyzerLog extends Application {
             if ((int) entry.getKey() >= 1 && (int) entry.getKey() <= 5) {
 
                 LinkedList<String> logs = (LinkedList<String>) entry.getValue();
-                countScenaries(logs);
+                countScenaries2(logs);
 
             }
 
@@ -268,7 +306,7 @@ public class DroneAnalyzerLog extends Application {
 
         answerTextArea.appendText("\n WITHOUT ASPECT\n");
 
-       /* printVariables();*/
+        printVariables();
 
         clearVariables();
 
@@ -277,7 +315,7 @@ public class DroneAnalyzerLog extends Application {
             if ((int) entry.getKey() >= 6 && (int) entry.getKey() <= 10) {
 
                 LinkedList<String> logs = (LinkedList<String>) entry.getValue();
-                countScenaries(logs);
+               /* countScenaries(logs);*/
 
 
             }
@@ -285,7 +323,7 @@ public class DroneAnalyzerLog extends Application {
 
         answerTextArea.appendText("\n WITH ASPECT\n");
 
-        printVariables();
+       printVariables();
 
         clearVariables();
 
@@ -307,8 +345,8 @@ public class DroneAnalyzerLog extends Application {
 
     }
 
-    private void removeLogsWithBugThread(String currentLog, int currentDroneIdentifier) {
-        /*remove log bug thread*/
+    /*private void removeLogsWithBugThread(String currentLog, int currentDroneIdentifier) {
+        *//*remove log bug thread*//*
 
         if(currentLog.equals("keep Flying aspect") && logsMap.get(currentDroneIdentifier).contains("Return to home completed successfully")){
             logsMap.get(currentDroneIdentifier).remove("Landing");
@@ -338,8 +376,8 @@ public class DroneAnalyzerLog extends Application {
             logsMap.get(currentDroneIdentifier).remove("Arrived at destination");
         }
 
-        /*remove log bug thread*/
-    }
+        *//*remove log bug thread*//*
+    }*/
 
     private void printVariables() {
         answerTextArea.appendText("\n");
@@ -355,9 +393,68 @@ public class DroneAnalyzerLog extends Application {
 
     }
 
-    private void countScenaries(LinkedList<String> logs) {
 
-        /*Arrived at destination*/
+    private void countScenaries2(LinkedList<String> logs){
+        if(logs.contains(ARRIVED_AT_DESTINATION)){
+            Landed_at_Destination_Normally++;
+        }
+
+        if(logs.contains(ARRIVED_AT_DESTINATION_ASPECT)){
+            Landed_at_Destination_by_Keep_Flying++;
+        }
+
+        if(logs.contains(DRONE_LANDED_SUCCESSFULLY)
+                ||logs.contains(DRONE_LANDED_SUCCESSFULLY_ASPECT)){
+             Landed_on_ground++;
+        }
+
+        if(logs.contains(MOVE_ASIDE_ASPECT)){
+            Landed_on_ground_after_moving_aside++;
+        }
+
+        if(logs.contains(DRONE_LANDED_ON_WATER)){
+            Landed_on_Water++;
+        }
+
+        if(logs.contains(RETURN_TO_HOME_COMPLETED_SUCCESSFULLY)){
+            Returned_to_Home++;
+        }
+
+        if(logs.contains(RETURN_TO_HOME)
+                && (logs.contains(SAFE_LAND) || (logs.contains(SAFE_LAND_ASPECT) ))){
+            SafeLanded_while_Returning_to_Home++;
+        }
+
+        if(logs.contains(GLIDE_ASPECT)
+                && (logs.contains(SAFE_LAND) || (logs.contains(SAFE_LAND_ASPECT) ))){
+            Glided_and_SafeLanded++;
+        }
+
+        if(logs.contains(GLIDE_ASPECT) && logs.contains(ARRIVED_AT_DESTINATION)){
+            Glided_and_Landed_at_Destination_Normally++;
+        }
+
+        if(logs.contains(GLIDE_ASPECT) && logs.contains(ARRIVED_AT_DESTINATION_ASPECT)){
+            Glided_and_Landed_at_Destination_by_Keep_Flying++;
+        }
+
+        if(logs.contains(START_ECONOMY_MODE)){
+            Activated_Economy_Mode++;
+        }
+
+        if(logs.contains(START_ECONOMY_MODE) && (logs.contains(SAFE_LAND) || logs.contains(SAFE_LAND_ASPECT))){
+            Activated_Economy_Mode_and_SafeLanded++;
+        }
+
+
+
+    }
+
+  /*  private void countScenaries(LinkedList<String> logs) {
+
+
+
+        *//*Arrived at destination*//*
         if (logs.contains("Arrived at destination")
                 && !logs.contains("keep Flying aspect")
                 && !logs.contains("Glide aspect")
@@ -397,6 +494,7 @@ public class DroneAnalyzerLog extends Application {
             arrivedAtDestination_glide++;
 
         }
+
 
         if (logs.contains("Arrived at destination") && logs.contains("Glide aspect") && logs.contains("Start Economy Mode")
                 && !logs.contains("keep Flying aspect")
@@ -448,7 +546,7 @@ public class DroneAnalyzerLog extends Application {
 
 
 
-        /*returnToHome*/
+        *//*returnToHome*//*
         if (logs.contains("Return to Home") && logs.contains("Return to home completed successfully")
                 &&!logs.contains("Continue Normal Mode aspect")
                 &&!logs.contains("Start Economy Mode")){
@@ -502,6 +600,7 @@ public class DroneAnalyzerLog extends Application {
 
         }
 
+
         if (logs.contains("Return to Home") && logs.contains("SafeLand") && logs.contains("Drone landed on water") && logs.contains("Continue Normal Mode aspect")
                 &&!logs.contains("Start Economy Mode")) {
 
@@ -515,6 +614,7 @@ public class DroneAnalyzerLog extends Application {
             returnToHome_startEconomyMode_safeLand_droneLandedOnWater++;
 
         }
+
 
 
 
@@ -544,7 +644,7 @@ public class DroneAnalyzerLog extends Application {
 
 
 
-        /*SafeLand*/
+        *//*SafeLand*//*
         if ( logs.contains("SafeLand") && logs.contains("Drone landed successfully")
                 && !logs.contains("Return to Home")
                 && !logs.contains("Move aside aspect")
@@ -573,7 +673,7 @@ public class DroneAnalyzerLog extends Application {
 
         }
 
-        /*KeepFlying*/
+        *//*KeepFlying*//*
         if (logs.contains("keep Flying aspect") && logs.contains("SafeLand aspect") && logs.contains("Arrived at destination aspect")
                 && !logs.contains("Return to Home")
                 && !logs.contains("Move aside aspect")
@@ -602,7 +702,7 @@ public class DroneAnalyzerLog extends Application {
 
         }
 
-        /*moveAside*/
+        *//*moveAside*//*
         if ( logs.contains("Move aside aspect") && logs.contains("SafeLand aspect") && logs.contains("Drone landed successfully")
                 && !logs.contains("Return to Home")
                 && !logs.contains("Move aside aspect")
@@ -636,7 +736,7 @@ public class DroneAnalyzerLog extends Application {
 
 
 
-        /*glade*/
+        *//*glade*//*
 
         if (logs.contains("Glide aspect")  && logs.contains("Arrived at destination")
                 && !logs.contains("SafeLand")
@@ -797,7 +897,7 @@ public class DroneAnalyzerLog extends Application {
 
 
 
-/*
+*//*
         if (logs.contains("keep Flying aspect") && logs.contains("Arrived at destination aspect") && !logs.contains("Glide aspect")) {
             landedAtDestinationByKeepFlyingCount++;
 
@@ -828,8 +928,8 @@ public class DroneAnalyzerLog extends Application {
         }
         if(logs.contains("Glide aspect") && logs.contains("keep Flying aspect")&& logs.contains("Arrived at destination")){
             glidedAndLandedAtDestinationByKeepFlyingCount++;
-        }*/
-    }
+        }*//*
+    }*/
 
 
     private boolean checkExistFile() {
