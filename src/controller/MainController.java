@@ -481,7 +481,7 @@ public class MainController extends Application {
         final boolean[] isAutomatic = {true};
         Integer initialBattery = 48;
 
-  /*      Timer timerDrone = new Timer();
+        Timer timerDrone = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -567,7 +567,6 @@ public class MainController extends Application {
 
 
         }, 1000, 3000);
-*/
 
 
 
