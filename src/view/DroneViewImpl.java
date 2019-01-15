@@ -27,7 +27,7 @@ public class DroneViewImpl extends Group implements DroneView {
     private Drone drone;
     public static double WIDTH = 24;
     public static double HEIGHT = 24;
-    public static int COUNT_DRONE = 0;
+    /*public static int COUNT_DRONE = 0;*/
 
     ImageView imageViewBadConnection = new ImageView(new Image("/view/res/lostConnection.png"));
     ImageView imageViewDrone = new ImageView( new Image("/view/res/notSelectedDrone.png"));
@@ -39,7 +39,7 @@ public class DroneViewImpl extends Group implements DroneView {
     private KeyCode currentCommand;
 
 
-    public DroneViewImpl(Cell currentCell, Hospital sourceHospital, Hospital destinyHopistal) {
+    public DroneViewImpl(int Id, Cell currentCell, Hospital sourceHospital, Hospital destinyHopistal) {
 
 
         imageViewBadConnection.setVisible(false);
@@ -48,9 +48,9 @@ public class DroneViewImpl extends Group implements DroneView {
 
         environmentView = currentCell.getEnvironmentView();
         this.currentCell = currentCell;
-        COUNT_DRONE++;
+        /*COUNT_DRONE++;*/
 
-        drone = new Drone(COUNT_DRONE, currentCell.getI(), currentCell.getJ(), sourceHospital, destinyHopistal);
+        drone = new Drone(Id,/*COUNT_DRONE,*/ currentCell.getI(), currentCell.getJ(), sourceHospital, destinyHopistal);
 
         double distanceHospitalSource = calculeteDistanceFrom(drone.getSourceHospital());
         double distanceHospitalDestiny = calculeteDistanceFrom(drone.getDestinyHopistal());
@@ -60,7 +60,7 @@ public class DroneViewImpl extends Group implements DroneView {
         drone.setDistanceHospitalDestiny(distanceHospitalDestiny);
 
         Label label = new Label();
-        label.setText(String.valueOf(COUNT_DRONE));
+        label.setText(String.valueOf(/*COUNT_DRONE*/ Id));
         label.setTextFill(Color.RED);
         label.setTextAlignment(TextAlignment.CENTER);
 

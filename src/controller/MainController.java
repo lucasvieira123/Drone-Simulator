@@ -321,7 +321,7 @@ public class MainController extends Application {
 
         HospitalImpl hospitalView2 = new HospitalImpl(environmentView.getCellFrom(9,0));
         hospitalViews.add(hospitalView2);
-        hospitalView = new HospitalImpl(environmentView.getCellFrom(9,29));
+        hospitalView2 = new HospitalImpl(environmentView.getCellFrom(9,29));
         hospitalViews.add(hospitalView2);
 
         RiverViewImpl riverView2 = null;
@@ -477,10 +477,10 @@ public class MainController extends Application {
 
 
 
-        final boolean[] isAspect = {false};
-        final boolean[] isAutomatic = {true};
-        Integer initialBattery = 48;
 
+        Integer initialBattery = 70;
+        final int[] initialIdExecution1 = {1};
+        final int[] initialIdExecution2 = {51};
         Timer timerDrone = new Timer();
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -491,63 +491,94 @@ public class MainController extends Application {
                     cancel();
                     }
 
+
+
                     for(int i =0; i<1; i++){
-                        DroneViewImpl dv1 = new DroneViewImpl(environmentView.getCellFrom(2,1),(Hospital) hospitalViews.get(0).getHospital(), (Hospital)hospitalViews.get(1).getHospital());
-                        ((Drone)dv1.getDrone()).setAspect(isAspect[0]);
-                        ((Drone)dv1.getDrone()).setIsAutomatic(isAutomatic[0]);
-                        DroneViewImpl dv2 = new DroneViewImpl(environmentView.getCellFrom(1,1),(Hospital) hospitalViews.get(0).getHospital(), (Hospital)hospitalViews.get(1).getHospital());
-                        ((Drone)dv2.getDrone()).setAspect(isAspect[0]);
-                        ((Drone)dv2.getDrone()).setIsAutomatic(isAutomatic[0]);
-                        DroneViewImpl dv3 = new DroneViewImpl(environmentView.getCellFrom(3,1),(Hospital) hospitalViews.get(0).getHospital(), (Hospital)hospitalViews.get(1).getHospital());
-                        ((Drone)dv3.getDrone()).setAspect(isAspect[0]);
-                        ((Drone)dv3.getDrone()).setIsAutomatic(isAutomatic[0]);
-                        DroneViewImpl dv4 = new DroneViewImpl(environmentView.getCellFrom(1,0),(Hospital) hospitalViews.get(0).getHospital(), (Hospital)hospitalViews.get(1).getHospital());
-                        ((Drone)dv4.getDrone()).setAspect(isAspect[0]);
-                        ((Drone)dv4.getDrone()).setIsAutomatic(isAutomatic[0]);
-                        DroneViewImpl dv5 = new DroneViewImpl(environmentView.getCellFrom(3,0),(Hospital) hospitalViews.get(0).getHospital(), (Hospital)hospitalViews.get(1).getHospital());
-                        ((Drone)dv5.getDrone()).setAspect(isAspect[0]);
-                        ((Drone)dv5.getDrone()).setIsAutomatic(isAutomatic[0]);
+
+                        DroneViewImpl dv1 = new DroneViewImpl(initialIdExecution1[0]++,environmentView.getCellFrom(3,1),(Hospital) hospitalViews.get(0).getHospital(), (Hospital)hospitalViews.get(1).getHospital());
+                        ((Drone)dv1.getDrone()).setAspect(false);
+                        ((Drone)dv1.getDrone()).setIsAutomatic(true);
+                        ((Drone) dv1.getDrone()).setInitialBattery(initialBattery);
+                        ((Drone) dv1.getDrone()).setCurrentBattery(initialBattery);
+
+
+
+                        DroneViewImpl dv2 = new DroneViewImpl(initialIdExecution1[0]++,environmentView.getCellFrom(2,1),(Hospital) hospitalViews.get(0).getHospital(), (Hospital)hospitalViews.get(1).getHospital());
+                        ((Drone)dv2.getDrone()).setAspect(false);
+                        ((Drone)dv2.getDrone()).setIsAutomatic(true);
+                        ((Drone) dv2.getDrone()).setInitialBattery(initialBattery);
+                        ((Drone) dv2.getDrone()).setCurrentBattery(initialBattery);
+
+
+                        DroneViewImpl dv3 = new DroneViewImpl(initialIdExecution1[0]++,environmentView.getCellFrom(4,1),(Hospital) hospitalViews.get(0).getHospital(), (Hospital)hospitalViews.get(1).getHospital());
+                        ((Drone)dv3.getDrone()).setAspect(false);
+                        ((Drone)dv3.getDrone()).setIsAutomatic(true);
+                        ((Drone) dv3.getDrone()).setInitialBattery(initialBattery);
+                        ((Drone) dv3.getDrone()).setCurrentBattery(initialBattery);
+
+
+
+                        DroneViewImpl dv4 = new DroneViewImpl(initialIdExecution1[0]++, environmentView.getCellFrom(2,0),(Hospital) hospitalViews.get(0).getHospital(), (Hospital)hospitalViews.get(1).getHospital());
+                        ((Drone)dv4.getDrone()).setAspect(false);
+                        ((Drone)dv4.getDrone()).setIsAutomatic(true);
+                        ((Drone) dv4.getDrone()).setInitialBattery(initialBattery);
+                        ((Drone) dv4.getDrone()).setCurrentBattery(initialBattery);
+
+
+
+                        DroneViewImpl dv5 = new DroneViewImpl(initialIdExecution1[0]++,environmentView.getCellFrom(4,0),(Hospital) hospitalViews.get(0).getHospital(), (Hospital)hospitalViews.get(1).getHospital());
+                        ((Drone)dv5.getDrone()).setAspect(false);
+                        ((Drone)dv5.getDrone()).setIsAutomatic(true);
+                        ((Drone) dv5.getDrone()).setInitialBattery(initialBattery);
+                        ((Drone) dv5.getDrone()).setCurrentBattery(initialBattery);
+
 
                         droneViews.add(dv1);
                         droneViews.add(dv2);
                         droneViews.add(dv3);
                         droneViews.add(dv4);
                         droneViews.add(dv5);
+
                     }
 
-                    isAspect[0] = true;
-                    isAutomatic[0] = true;
+
 
                     for(int i =0; i<1; i++) {
-                        DroneViewImpl dv7 = new DroneViewImpl(environmentView.getCellFrom(6, 1), (Hospital) hospitalViews.get(2).getHospital(), (Hospital) hospitalViews.get(3).getHospital());
-                        ((Drone) dv7.getDrone()).setAspect(isAspect[0]);
-                        ((Drone) dv7.getDrone()).setIsAutomatic(isAutomatic[0]);
+                        DroneViewImpl dv7 = new DroneViewImpl(initialIdExecution2[0]++,environmentView.getCellFrom(9, 1), (Hospital) hospitalViews.get(2).getHospital(), (Hospital) hospitalViews.get(3).getHospital());
+                        ((Drone) dv7.getDrone()).setAspect(true);
+                        ((Drone) dv7.getDrone()).setIsAutomatic(true);
                         ((Drone) dv7.getDrone()).setInitialBattery(initialBattery);
-                        ((Drone) dv7.getDrone()).setInitialBattery(initialBattery);
+                        ((Drone) dv7.getDrone()).setCurrentBattery(initialBattery);
 
-                        DroneViewImpl dv8 = new DroneViewImpl(environmentView.getCellFrom(7, 1), (Hospital) hospitalViews.get(2).getHospital(), (Hospital) hospitalViews.get(3).getHospital());
-                        ((Drone) dv8.getDrone()).setAspect(isAspect[0]);
-                        ((Drone) dv8.getDrone()).setIsAutomatic(isAutomatic[0]);
+
+
+                        DroneViewImpl dv8 = new DroneViewImpl(initialIdExecution2[0]++,environmentView.getCellFrom(10, 1), (Hospital) hospitalViews.get(2).getHospital(), (Hospital) hospitalViews.get(3).getHospital());
+                        ((Drone) dv8.getDrone()).setAspect(true);
+                        ((Drone) dv8.getDrone()).setIsAutomatic(true);
                         ((Drone) dv8.getDrone()).setInitialBattery(initialBattery);
-                        ((Drone) dv8.getDrone()).setInitialBattery(initialBattery);
+                        ((Drone) dv8.getDrone()).setCurrentBattery(initialBattery);
 
-                        DroneViewImpl dv9 = new DroneViewImpl(environmentView.getCellFrom(5, 1), (Hospital) hospitalViews.get(2).getHospital(), (Hospital) hospitalViews.get(3).getHospital());
-                        ((Drone) dv9.getDrone()).setAspect(isAspect[0]);
-                        ((Drone) dv9.getDrone()).setIsAutomatic(isAutomatic[0]);
+
+                        DroneViewImpl dv9 = new DroneViewImpl(initialIdExecution2[0]++,environmentView.getCellFrom(8, 1), (Hospital) hospitalViews.get(2).getHospital(), (Hospital) hospitalViews.get(3).getHospital());
+                        ((Drone) dv9.getDrone()).setAspect(true);
+                        ((Drone) dv9.getDrone()).setIsAutomatic(true);
                         ((Drone) dv9.getDrone()).setInitialBattery(initialBattery);
-                        ((Drone) dv9.getDrone()).setInitialBattery(initialBattery);
+                        ((Drone) dv9.getDrone()).setCurrentBattery(initialBattery);
 
-                        DroneViewImpl dv10 = new DroneViewImpl(environmentView.getCellFrom(7, 0), (Hospital) hospitalViews.get(2).getHospital(), (Hospital) hospitalViews.get(3).getHospital());
-                        ((Drone) dv10.getDrone()).setAspect(isAspect[0]);
-                        ((Drone) dv10.getDrone()).setIsAutomatic(isAutomatic[0]);
-                        ((Drone) dv10.getDrone()).setInitialBattery(initialBattery);
-                        ((Drone) dv10.getDrone()).setInitialBattery(initialBattery);
 
-                        DroneViewImpl dv11 = new DroneViewImpl(environmentView.getCellFrom(5, 0), (Hospital) hospitalViews.get(2).getHospital(), (Hospital) hospitalViews.get(3).getHospital());
-                        ((Drone) dv11.getDrone()).setAspect(isAspect[0]);
-                        ((Drone) dv11.getDrone()).setIsAutomatic(isAutomatic[0]);
+                        DroneViewImpl dv10 = new DroneViewImpl(initialIdExecution2[0]++,environmentView.getCellFrom(10, 0), (Hospital) hospitalViews.get(2).getHospital(), (Hospital) hospitalViews.get(3).getHospital());
+                        ((Drone) dv10.getDrone()).setAspect(true);
+                        ((Drone) dv10.getDrone()).setIsAutomatic(true);
+                        ((Drone) dv10.getDrone()).setInitialBattery(initialBattery);
+                        ((Drone) dv10.getDrone()).setCurrentBattery(initialBattery);
+
+
+                        DroneViewImpl dv11 = new DroneViewImpl(initialIdExecution2[0]++,environmentView.getCellFrom(8, 0), (Hospital) hospitalViews.get(2).getHospital(), (Hospital) hospitalViews.get(3).getHospital());
+                        ((Drone) dv11.getDrone()).setAspect(true);
+                        ((Drone) dv11.getDrone()).setIsAutomatic(true);
                         ((Drone) dv11.getDrone()).setInitialBattery(initialBattery);
-                        ((Drone) dv11.getDrone()).setInitialBattery(initialBattery);
+                        ((Drone) dv11.getDrone()).setCurrentBattery(initialBattery);
+
 
                         droneViews.add(dv7);
                         droneViews.add(dv8);
@@ -559,6 +590,9 @@ public class MainController extends Application {
                 });
 
                 Platform.runLater(() -> {
+
+
+
                     startToggleButton.fire();
                 });
 
@@ -852,7 +886,7 @@ public class MainController extends Application {
     }
 
     private DroneView createDrone() {
-        DroneViewImpl droneView = new DroneViewImpl((Cell) environmentView.getCellSelected(),
+        DroneViewImpl droneView = new DroneViewImpl(999999999,(Cell) environmentView.getCellSelected(),
                 (Hospital) hospitalViews.get(0).getHospital(),
                 (Hospital) hospitalViews.get(1).getHospital());
 

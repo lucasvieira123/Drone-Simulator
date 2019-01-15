@@ -94,7 +94,7 @@ public aspect Aspect {
             public void run() {
 
                 Platform.runLater(() -> {
-                    drone.setCurrentPositionI(drone.getCurrentPositionI() + 1);
+                    drone.setCurrentPositionI(drone.getCurrentPositionI() - 1);
 
                     droneView.updadePositionDroneView();
                     droneView.updateItIsOver();

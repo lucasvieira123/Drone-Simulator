@@ -41,6 +41,8 @@ public class Drone {
     private boolean safeland;
     private  boolean isAspect;
 
+
+
     public boolean isAspect() {
         return isAspect;
     }
@@ -184,6 +186,8 @@ public class Drone {
         this.sourceHospital = sourceHospital;
         this.destinyHopistal = destinyHopistal;
     }
+
+
 
 
     synchronized public int getCurrentPositionI() {
