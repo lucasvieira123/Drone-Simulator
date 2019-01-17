@@ -175,9 +175,9 @@ public class DroneViewImpl extends Group implements DroneView {
 
         }
 
-        if(drone.getCurrentBattery() <= 15){
+       /* if(drone.getCurrentBattery() <= 15){
             applyEconomyMode();
-        }
+        }*/
         if(drone.getCurrentBattery() <= 10 && drone.getDistanceHospitalDestiny()>0 && !drone.isSafeLand()){
             stopGoAutomaticDestiny();
             stopBatteryDecrementer();
@@ -337,16 +337,16 @@ public class DroneViewImpl extends Group implements DroneView {
                 System.out.println("Random number " + randomNum);
 
                 if(randomNum==0){
-                    flyingRight();
+                    flyingLeft();
                 }
                 else if(randomNum==1){
                     flyingLeft();
                 }
                 else if(randomNum==2){
-                    flyingUp();
+
                 }
                 else if( randomNum==3){
-                    flyingDown();
+
                 }
             }
 
@@ -641,7 +641,7 @@ public class DroneViewImpl extends Group implements DroneView {
 
 
     }
-
+/*
     public void applyEconomyMode() {
 
         if(drone.isEconomyMode()){
@@ -652,7 +652,7 @@ public class DroneViewImpl extends Group implements DroneView {
 
         System.out.println("Drone["+drone.getId()+"] "+"Start Economy Mode");
         loggerController.print("Drone["+drone.getId()+"] "+"Start Economy Mode");
-    }
+    }*/
 
     public void goDestinyAutomatic() {
         drone.setGoingAutomaticToDestiny(true);
@@ -1014,19 +1014,19 @@ public class DroneViewImpl extends Group implements DroneView {
 
                 switch (randomNum){
                     case 0:
-                        flyingRight();
-                        break;
-
-                    case 1:
                         flyingLeft();
                         break;
 
+                    case 1:
+                        flyingRight();
+                        break;
+
                     case 2:
-                        flyingUp();
+
                         break;
 
                     case 3:
-                        flyingDown();
+
                         break;
                 }
 

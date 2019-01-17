@@ -75,7 +75,7 @@ public class AntenaViewImpl extends Group implements AntenaView {
 
         Platform.runLater(() -> {
 
-            if(randomDouble>0.75){
+            if(randomDouble>0.70){
                 for(Cell cell : cellList){
                     cell.setBadConnection(true);
                 }

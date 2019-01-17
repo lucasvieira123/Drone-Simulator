@@ -40,7 +40,7 @@ public class DroneAnalyzerLog extends Application {
 
     private static final String DRONE_LANDED_ON_WATER = "Drone landed on water";
     private static final String DRONE_LANDED_SUCCESSFULLY = "Drone landed successfully";
-    private static final String DRONE_LANDED_SUCCESSFULLY_ASPECT = " Drone landed successfully aspect";
+    private static final String DRONE_LANDED_SUCCESSFULLY_ASPECT = "Drone landed successfully aspect";
 
 
 
@@ -55,136 +55,23 @@ public class DroneAnalyzerLog extends Application {
     TextArea answerTextArea;
     private Stage primaryStage;
 
-    private int landedAtDestinationByKeepFlyingCount = 0;
 
     private Map<Integer, LinkedList<String>> logsMap = new HashMap<>();
 
-   /* private int safelandNormalCount = 0;
-    private int landedOnGroundAfterMovingAsideCount = 0;
-    private int landedOnWaterCount = 0;
-    private int safeLandedWhileReturningToHomeCount;
-    private int landedOnGroundCount;
-    private int glideAndSafeLandCount;
-    private int glideAndLandedAtDestinationNormallyCount;
-    private int glidedAndLandedAtDestinationByKeepFlyingCount;*/
 
-    private int Landed_at_Destination_Normally;
-    private int Landed_at_Destination_by_Keep_Flying;
-    private int Landed_on_ground;
-    private int Landed_on_ground_after_moving_aside;
-    private int Landed_on_Water;
-    private int Returned_to_Home;
-    private int SafeLanded_while_Returning_to_Home;
-    private int Glided_and_SafeLanded;
-    private int Glided_and_Landed_at_Destination_Normally;
-    private int Glided_and_Landed_at_Destination_by_Keep_Flying;
-    private int Activated_Economy_Mode;
-    private int Activated_Economy_Mode_and_SafeLanded;
+    private int Landed_at_Destination_Normally_Count;
+    private int Landed_at_Destination_by_Keep_Flying_Count;
+    private int Landed_on_ground_Count;
+    private int Landed_on_ground_after_moving_aside_Count;
+    private int Landed_on_Water_Count;
+    private int Returned_to_Home_Count;
+    private int SafeLanded_while_Returning_to_Home_Count;
+    private int Glided_and_SafeLanded_Count;
+    private int Glided_and_Landed_at_Destination_Normally_Count;
+    private int Glided_and_Landed_at_Destination_by_Keep_Flying_Count;
+    private int Activated_Economy_Mode_Count;
+    private int Activated_Economy_Mode_and_SafeLanded_Count;
 
-
-  /*  private int arrivedAtDestination_withoutExceptionalScenaries;
-
-    private int returnToHome_returntoHomeCompletedSuccessfully;
-
-    private int arrivedAtDestination_keepFlying;
-
-    private int arrivedAtDestination_glide;
-
-    private int arrivedAtDestination_continueNormalMode;
-
-    private int arrivedAtDestination_glide_keepFlying;
-
-    private int arrivedAtDestination_continueNormalMode_keepFlying;
-
-    private int arrivedAtDestination_continueNormalMode_glide;
-
-    private int arrivedAtDestination_keepFlying_glide_continueNormalMode_;
-
-    private int returnToHome_safeLand_droneLandedSucessfully;
-
-    private int returnToHome_safeLand_droneLandedOnWater;
-
-    private int returnToHome_moveASide_safeLand_droneLandedSucessfully;
-
-    private int glide_arrivedAtDestination;
-
-    private int glide_safeLand_droneLandedSucessfully;
-
-    private int glide_safeLand_droneLandedOnWater;
-
-    private int glide_keepFlying_arrivedAtDestination;
-
-    private int glide_moveAside_droneLandedSucessfully;
-
-    private int continueNormalMode_glide_arrivedAtDestination;
-
-    private int continueNormalMode_glide_safeLand_droneLandedSucessfully;
-
-    private int continueNormalMode_glide_safeLand_DroneLandedOnWater;
-
-    private int continueNormalMode_glide_keepFlying_arrivedAtDestination;
-
-    private int safeLand_droneLandedSuccessfully;
-
-    private int arrivedAtDestination_startEconomyMode;
-
-    private int arrivedAtDestination_keepFlying_glide_startEconomyMode;
-
-    private int arrivedAtDestination_startEconomyMode_glide_keepFlying;
-
-    private int arrivedAtDestination_startEconomyMode_glide;
-
-    private int arrivedAtDestination_startEconomyMode_keepFlying;
-
-    private int returnToHome_continueNormalMode_returntoHomeCompletedSuccessfully;
-
-    private int returnToHome_startEconomyMode_returntoHomeCompletedSuccessfully;
-
-    private int returnToHome_safeLand_continueNormalMode_droneLandedSucessfully;
-
-    private int returnToHome_safeLand_startEconomyMode_droneLandedSucessfully;
-
-    private int returnToHome_continueNormalMode_safeLand_droneLandedOnWater;
-
-    private int returnToHome_startEconomyMode_safeLand_droneLandedOnWater;
-
-    private int returnToHome_continueNormalMode_moveASide_safeLand_droneLandedSucessfully;
-
-    private int returnToHome_moveASide_startEconomyMode_safeLand_droneLandedSucessfully
-            ;
-    private int glide_startEconomyMode_moveAside_droneLandedSucessfully;
-
-    private int safeLand_continueNormalMode_droneLandedSuccessfully;
-
-    private int safeLand_startEconomyMode_droneLandedSuccessfully;
-
-    private int keepFlying_safeLand_arrivedAtDestination;
-
-    private int keepFlying_continueNormalMode_safeLand_arrivedAtDestination;
-
-    private int keepFlying_startEconomyMode_safeLand_arrivedAtDestination;
-
-    private int moveAside_safeLande_DroneLandedSucessfully;
-
-    private int moveAside_continueNormalMode_safeLande_DroneLandedSucessfully;
-
-    private int moveAside_startEconomyMode_safeLande_DroneLandedSucessfully;
-
-    private int glide_continueNormalMode_safeLand_droneLandedSucessfully;
-
-    private int glide_startEconomyMode_safeLand_droneLandedSucessfully;
-
-    private int glide_continueNormalMode_safeLand_droneLandedOnWater;
-
-    private int glide_startEconomyMode_safeLand_droneLandedOnWater;
-
-    private int glide_continueNormalMode_keepFlying_arrivedAtDestination;
-
-    private int glide_startEconomyMode_keepFlying_arrivedAtDestination;
-
-    private int glide_continueNormalMode_moveAside_droneLandedSucessfully;
-
-*/
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -222,7 +109,7 @@ public class DroneAnalyzerLog extends Application {
     private void clearVariables() {
 
         for( Field field:this.getClass().getDeclaredFields()){
-            if(field.getName().contains("_")){
+            if(field.getName().contains("_Count")){
                 try {
                     field.set(this, 0);
                 } catch (IllegalAccessException e) {
@@ -295,7 +182,7 @@ public class DroneAnalyzerLog extends Application {
         answerTextArea.appendText("Amount of Drone:" + logsMap.size() + "\n");
 
         for (Map.Entry entry : logsMap.entrySet()) {
-            if ((int) entry.getKey() >= 1 && (int) entry.getKey() <= 5) {
+            if ((int) entry.getKey() >= 1 && (int) entry.getKey() <= 50) {
 
                 LinkedList<String> logs = (LinkedList<String>) entry.getValue();
                 countScenaries2(logs);
@@ -312,10 +199,10 @@ public class DroneAnalyzerLog extends Application {
 
 
         for (Map.Entry entry : logsMap.entrySet()) {
-            if ((int) entry.getKey() >= 6 && (int) entry.getKey() <= 10) {
+            if ((int) entry.getKey() >= 51 && (int) entry.getKey() <= 100) {
 
                 LinkedList<String> logs = (LinkedList<String>) entry.getValue();
-               /* countScenaries(logs);*/
+                countScenaries2(logs);
 
 
             }
@@ -382,7 +269,7 @@ public class DroneAnalyzerLog extends Application {
     private void printVariables() {
         answerTextArea.appendText("\n");
       for( Field field:this.getClass().getDeclaredFields()){
-          if(field.getName().contains("_")){
+          if(field.getName().contains("_Count")){
               try {
                   answerTextArea.appendText(field.getName()+ " "+field.get(this)+"\n");
               } catch (IllegalAccessException e) {
@@ -396,541 +283,58 @@ public class DroneAnalyzerLog extends Application {
 
     private void countScenaries2(LinkedList<String> logs){
         if(logs.contains(ARRIVED_AT_DESTINATION)){
-            Landed_at_Destination_Normally++;
+            Landed_at_Destination_Normally_Count++;
         }
 
         if(logs.contains(ARRIVED_AT_DESTINATION_ASPECT)){
-            Landed_at_Destination_by_Keep_Flying++;
+            Landed_at_Destination_by_Keep_Flying_Count++;
         }
 
         if(logs.contains(DRONE_LANDED_SUCCESSFULLY)
                 ||logs.contains(DRONE_LANDED_SUCCESSFULLY_ASPECT)){
-             Landed_on_ground++;
+             Landed_on_ground_Count++;
         }
 
         if(logs.contains(MOVE_ASIDE_ASPECT)){
-            Landed_on_ground_after_moving_aside++;
+            Landed_on_ground_after_moving_aside_Count++;
         }
 
         if(logs.contains(DRONE_LANDED_ON_WATER)){
-            Landed_on_Water++;
+            Landed_on_Water_Count++;
         }
 
         if(logs.contains(RETURN_TO_HOME_COMPLETED_SUCCESSFULLY)){
-            Returned_to_Home++;
+            Returned_to_Home_Count++;
         }
 
         if(logs.contains(RETURN_TO_HOME)
                 && (logs.contains(SAFE_LAND) || (logs.contains(SAFE_LAND_ASPECT) ))){
-            SafeLanded_while_Returning_to_Home++;
+            SafeLanded_while_Returning_to_Home_Count++;
         }
 
         if(logs.contains(GLIDE_ASPECT)
                 && (logs.contains(SAFE_LAND) || (logs.contains(SAFE_LAND_ASPECT) ))){
-            Glided_and_SafeLanded++;
+            Glided_and_SafeLanded_Count++;
         }
 
         if(logs.contains(GLIDE_ASPECT) && logs.contains(ARRIVED_AT_DESTINATION)){
-            Glided_and_Landed_at_Destination_Normally++;
+            Glided_and_Landed_at_Destination_Normally_Count++;
         }
 
         if(logs.contains(GLIDE_ASPECT) && logs.contains(ARRIVED_AT_DESTINATION_ASPECT)){
-            Glided_and_Landed_at_Destination_by_Keep_Flying++;
+            Glided_and_Landed_at_Destination_by_Keep_Flying_Count++;
         }
 
         if(logs.contains(START_ECONOMY_MODE)){
-            Activated_Economy_Mode++;
+            Activated_Economy_Mode_Count++;
         }
 
         if(logs.contains(START_ECONOMY_MODE) && (logs.contains(SAFE_LAND) || logs.contains(SAFE_LAND_ASPECT))){
-            Activated_Economy_Mode_and_SafeLanded++;
+            Activated_Economy_Mode_and_SafeLanded_Count++;
         }
-
 
 
     }
-
-  /*  private void countScenaries(LinkedList<String> logs) {
-
-
-
-        *//*Arrived at destination*//*
-        if (logs.contains("Arrived at destination")
-                && !logs.contains("keep Flying aspect")
-                && !logs.contains("Glide aspect")
-                && !logs.contains("Continue Normal Mode aspect")) {
-            arrivedAtDestination_withoutExceptionalScenaries++;
-
-        }
-
-        if (logs.contains("Arrived at destination") && logs.contains("Start Economy Mode")
-                && !logs.contains("keep Flying aspect")
-                && !logs.contains("Glide aspect")
-                && !logs.contains("Continue Normal Mode aspect")) {
-
-            arrivedAtDestination_startEconomyMode++;
-
-        }
-
-        if (logs.contains("Arrived at destination aspect") && logs.contains("keep Flying aspect")
-                && !logs.contains("Glide aspect")
-                && !logs.contains("Continue Normal Mode aspect")) {
-
-            arrivedAtDestination_keepFlying++;
-
-        }
-
-        if (logs.contains("Arrived at destination aspect") && logs.contains("keep Flying aspect") && logs.contains("Start Economy Mode")
-                && !logs.contains("Glide aspect")
-                && !logs.contains("Continue Normal Mode aspect")) {
-
-            arrivedAtDestination_startEconomyMode_keepFlying++;
-
-        }
-
-        if (logs.contains("Arrived at destination") && logs.contains("Glide aspect")
-                && !logs.contains("keep Flying aspect")
-                && !logs.contains("Continue Normal Mode aspect")) {
-            arrivedAtDestination_glide++;
-
-        }
-
-
-        if (logs.contains("Arrived at destination") && logs.contains("Glide aspect") && logs.contains("Start Economy Mode")
-                && !logs.contains("keep Flying aspect")
-                && !logs.contains("Continue Normal Mode aspect")) {
-            arrivedAtDestination_startEconomyMode_glide++;
-
-        }
-
-        if (logs.contains("Arrived at destination")  && logs.contains("Continue Normal Mode aspect")
-                && !logs.contains("keep Flying aspect")
-                && !logs.contains("Glide aspect")) {
-            arrivedAtDestination_continueNormalMode++;
-
-        }
-
-        if (logs.contains("Arrived at destination aspect") && logs.contains("keep Flying aspect") && logs.contains("Glide aspect")
-                && !logs.contains("Continue Normal Mode aspect")) {
-            arrivedAtDestination_glide_keepFlying++;
-
-        }
-
-        if (logs.contains("Arrived at destination aspect") && logs.contains("keep Flying aspect") && logs.contains("Glide aspect") && logs.contains("Start Economy Mode")
-                && !logs.contains("Continue Normal Mode aspect")) {
-            arrivedAtDestination_startEconomyMode_glide_keepFlying++;
-
-        }
-
-        if (logs.contains("Arrived at destination aspect") && logs.contains("keep Flying aspect") && logs.contains("Continue Normal Mode aspect")
-                && !logs.contains("Glide aspect") ) {
-            arrivedAtDestination_continueNormalMode_keepFlying++;
-
-        }
-
-        if (logs.contains("Arrived at destination")  && logs.contains("Glide aspect") && logs.contains("Continue Normal Mode aspect")
-                && !logs.contains("keep Flying aspect")) {
-            arrivedAtDestination_continueNormalMode_glide++;
-
-        }
-
-        if (logs.contains("Arrived at destination") || logs.contains("Arrived at destination aspect") && logs.contains("keep Flying aspect") && logs.contains("Glide aspect") && logs.contains("Continue Normal Mode aspect")) {
-            arrivedAtDestination_keepFlying_glide_continueNormalMode_++;
-
-        }
-
-        if (logs.contains("Arrived at destination") || logs.contains("Arrived at destination aspect") && logs.contains("keep Flying aspect") && logs.contains("Glide aspect") && logs.contains("Start Economy Mode")) {
-            arrivedAtDestination_keepFlying_glide_startEconomyMode++;
-
-        }
-
-
-
-        *//*returnToHome*//*
-        if (logs.contains("Return to Home") && logs.contains("Return to home completed successfully")
-                &&!logs.contains("Continue Normal Mode aspect")
-                &&!logs.contains("Start Economy Mode")){
-
-            returnToHome_returntoHomeCompletedSuccessfully++;
-
-        }
-
-        if (logs.contains("Return to Home") && logs.contains("Return to home completed successfully") && logs.contains("Continue Normal Mode aspect")
-                &&!logs.contains("Start Economy Mode")) {
-            returnToHome_continueNormalMode_returntoHomeCompletedSuccessfully++;
-
-        }
-
-        if (logs.contains("Return to Home") && logs.contains("Return to home completed successfully") && logs.contains("Start Economy Mode")
-                && !logs.contains("Continue Normal Mode aspect")) {
-            returnToHome_startEconomyMode_returntoHomeCompletedSuccessfully++;
-
-        }
-
-
-
-
-        if (logs.contains("Return to Home") && logs.contains("SafeLand") && logs.contains("Drone landed successfully")
-                &&!logs.contains("Continue Normal Mode aspect")
-                &&!logs.contains("Start Economy Mode")) {
-            returnToHome_safeLand_droneLandedSucessfully++;
-
-        }
-
-        if (logs.contains("Return to Home") && logs.contains("SafeLand") && logs.contains("Drone landed successfully") && logs.contains("Continue Normal Mode aspect")
-                &&!logs.contains("Start Economy Mode")) {
-            returnToHome_safeLand_continueNormalMode_droneLandedSucessfully++;
-
-        }
-
-        if (logs.contains("Return to Home") && logs.contains("SafeLand") && logs.contains("Drone landed successfully") && logs.contains("Start Economy Mode")
-                &&!logs.contains("Continue Normal Mode aspect")
-                ) {
-            returnToHome_safeLand_startEconomyMode_droneLandedSucessfully++;
-
-        }
-
-
-
-        if (logs.contains("Return to Home") && logs.contains("SafeLand") && logs.contains("Drone landed on water")
-                &&!logs.contains("Continue Normal Mode aspect")
-                &&!logs.contains("Start Economy Mode")) {
-
-            returnToHome_safeLand_droneLandedOnWater++;
-
-        }
-
-
-        if (logs.contains("Return to Home") && logs.contains("SafeLand") && logs.contains("Drone landed on water") && logs.contains("Continue Normal Mode aspect")
-                &&!logs.contains("Start Economy Mode")) {
-
-            returnToHome_continueNormalMode_safeLand_droneLandedOnWater++;
-
-        }
-
-        if (logs.contains("Return to Home") && logs.contains("SafeLand") && logs.contains("Drone landed on water") && logs.contains("Start Economy Mode")
-                &&!logs.contains("Continue Normal Mode aspect")) {
-
-            returnToHome_startEconomyMode_safeLand_droneLandedOnWater++;
-
-        }
-
-
-
-
-        if (logs.contains("Return to Home") && logs.contains("Move aside aspect") && logs.contains("SafeLand aspect") && logs.contains("Drone landed successfully")
-                &&!logs.contains("Continue Normal Mode aspect")
-                &&!logs.contains("Start Economy Mode")) {
-
-            returnToHome_moveASide_safeLand_droneLandedSucessfully++;
-
-        }
-
-        if (logs.contains("Return to Home") && logs.contains("Move aside aspect") && logs.contains("SafeLand aspect") && logs.contains("Drone landed successfully") && logs.contains("Continue Normal Mode aspect")
-                &&!logs.contains("Start Economy Mode")) {
-
-            returnToHome_continueNormalMode_moveASide_safeLand_droneLandedSucessfully++;
-
-        }
-
-        if (logs.contains("Return to Home") && logs.contains("Move aside aspect") && logs.contains("SafeLand aspect") && logs.contains("Drone landed successfully") && logs.contains("Start Economy Mode")
-                &&!logs.contains("Continue Normal Mode aspect")) {
-
-            returnToHome_moveASide_startEconomyMode_safeLand_droneLandedSucessfully++;
-
-        }
-
-
-
-
-
-        *//*SafeLand*//*
-        if ( logs.contains("SafeLand") && logs.contains("Drone landed successfully")
-                && !logs.contains("Return to Home")
-                && !logs.contains("Move aside aspect")
-                && !logs.contains("Glide aspect")
-                && !logs.contains("Continue Normal Mode aspect")
-                && !logs.contains("Start Economy Mode")) {
-                safeLand_droneLandedSuccessfully++;
-
-        }
-
-        if ( logs.contains("SafeLand") && logs.contains("Drone landed successfully")  && logs.contains("Continue Normal Mode aspect")
-                && !logs.contains("Return to Home")
-                && !logs.contains("Move aside aspect")
-                && !logs.contains("Glide aspect")
-                && !logs.contains("Start Economy Mode")) {
-            safeLand_continueNormalMode_droneLandedSuccessfully++;
-
-        }
-
-        if ( logs.contains("SafeLand") && logs.contains("Drone landed successfully") && logs.contains("Start Economy Mode")
-                && !logs.contains("Return to Home")
-                && !logs.contains("Move aside aspect")
-                && !logs.contains("Glide aspect")
-                && !logs.contains("Continue Normal Mode aspect")) {
-            safeLand_startEconomyMode_droneLandedSuccessfully++;
-
-        }
-
-        *//*KeepFlying*//*
-        if (logs.contains("keep Flying aspect") && logs.contains("SafeLand aspect") && logs.contains("Arrived at destination aspect")
-                && !logs.contains("Return to Home")
-                && !logs.contains("Move aside aspect")
-                && !logs.contains("Glide aspect")
-                && !logs.contains("Continue Normal Mode aspect")
-                && !logs.contains("Start Economy Mode")) {
-            keepFlying_safeLand_arrivedAtDestination++;
-
-        }
-
-        if (logs.contains("keep Flying aspect") && logs.contains("SafeLand aspect") && logs.contains("Arrived at destination aspect")  && logs.contains("Continue Normal Mode aspect")
-                && !logs.contains("Return to Home")
-                && !logs.contains("Move aside aspect")
-                && !logs.contains("Glide aspect")
-                && !logs.contains("Start Economy Mode")) {
-            keepFlying_continueNormalMode_safeLand_arrivedAtDestination++;
-
-        }
-
-        if (logs.contains("keep Flying aspect") && logs.contains("SafeLand aspect") && logs.contains("Arrived at destination aspect") && logs.contains("Start Economy Mode")
-                && !logs.contains("Return to Home")
-                && !logs.contains("Move aside aspect")
-                && !logs.contains("Glide aspect")
-                && !logs.contains("Continue Normal Mode aspect")) {
-            keepFlying_startEconomyMode_safeLand_arrivedAtDestination++;
-
-        }
-
-        *//*moveAside*//*
-        if ( logs.contains("Move aside aspect") && logs.contains("SafeLand aspect") && logs.contains("Drone landed successfully")
-                && !logs.contains("Return to Home")
-                && !logs.contains("Move aside aspect")
-                && !logs.contains("Glide aspect")
-                && !logs.contains("Continue Normal Mode aspect")
-                && !logs.contains("Start Economy Mode")) {
-            moveAside_safeLande_DroneLandedSucessfully++;
-
-        }
-
-        if ( logs.contains("Move aside aspect") && logs.contains("SafeLand aspect") && logs.contains("Drone landed successfully") && logs.contains("Continue Normal Mode aspect")
-                && !logs.contains("Return to Home")
-                && !logs.contains("Move aside aspect")
-                && !logs.contains("Glide aspect")
-                && !logs.contains("Start Economy Mode")) {
-            moveAside_continueNormalMode_safeLande_DroneLandedSucessfully++;
-
-        }
-
-        if ( logs.contains("Move aside aspect") && logs.contains("SafeLand aspect") && logs.contains("Drone landed successfully") && logs.contains("Start Economy Mode")
-                && !logs.contains("Return to Home")
-                && !logs.contains("Move aside aspect")
-                && !logs.contains("Glide aspect")
-                && !logs.contains("Continue Normal Mode aspect")) {
-            moveAside_startEconomyMode_safeLande_DroneLandedSucessfully++;
-
-        }
-
-
-
-
-
-
-        *//*glade*//*
-
-        if (logs.contains("Glide aspect")  && logs.contains("Arrived at destination")
-                && !logs.contains("SafeLand")
-                && !logs.contains("keep Flying aspect")
-                && !logs.contains("Move aside aspect")
-                && !logs.contains("Continue Normal Mode aspect")
-                && !logs.contains("Start Economy Mode")) {
-
-            glide_safeLand_droneLandedSucessfully++;
-
-        }
-
-        if (logs.contains("Glide aspect") && logs.contains("SafeLand") && logs.contains("Drone landed successfully")
-                && !logs.contains("keep Flying aspect")
-                && !logs.contains("Move aside aspect")
-                && !logs.contains("Continue Normal Mode aspect")
-                && !logs.contains("Start Economy Mode")) {
-
-            glide_safeLand_droneLandedSucessfully++;
-
-        }
-
-        if (logs.contains("Glide aspect") && logs.contains("SafeLand") && logs.contains("Drone landed successfully")  && logs.contains("Continue Normal Mode aspect")
-                && !logs.contains("keep Flying aspect")
-                && !logs.contains("Move aside aspect")
-                && !logs.contains("Start Economy Mode")) {
-
-            glide_continueNormalMode_safeLand_droneLandedSucessfully++;
-
-        }
-
-        if (logs.contains("Glide aspect") && logs.contains("SafeLand") && logs.contains("Drone landed successfully") && logs.contains("Start Economy Mode")
-                && !logs.contains("keep Flying aspect")
-                && !logs.contains("Move aside aspect")
-                && !logs.contains("Continue Normal Mode aspect")) {
-
-            glide_startEconomyMode_safeLand_droneLandedSucessfully++;
-
-        }
-
-        if (logs.contains("Glide aspect") && logs.contains("SafeLand") && logs.contains("Drone landed on water")
-                && !logs.contains("keep Flying aspect")
-                && !logs.contains("Move aside aspect")
-                && !logs.contains("Continue Normal Mode aspect")
-                && !logs.contains("Start Economy Mode")) {
-            glide_safeLand_droneLandedOnWater++;
-
-        }
-
-        if (logs.contains("Glide aspect") && logs.contains("SafeLand") && logs.contains("Drone landed on water")  && logs.contains("Continue Normal Mode aspect")
-                && !logs.contains("keep Flying aspect")
-                && !logs.contains("Move aside aspect")
-                && !logs.contains("Start Economy Mode")) {
-            glide_continueNormalMode_safeLand_droneLandedOnWater++;
-
-        }
-
-        if (logs.contains("Glide aspect") && logs.contains("SafeLand") && logs.contains("Drone landed on water") && logs.contains("Start Economy Mode")
-                && !logs.contains("keep Flying aspect")
-                && !logs.contains("Move aside aspect")
-                && !logs.contains("Continue Normal Mode aspect")) {
-            glide_startEconomyMode_safeLand_droneLandedOnWater++;
-
-        }
-
-        if (logs.contains("Glide aspect") && logs.contains("SafeLand aspect") && logs.contains("Arrived at destination aspect")
-                && logs.contains("keep Flying aspect")
-                && !logs.contains("Move aside aspect")
-                && !logs.contains("Continue Normal Mode aspect")
-                && !logs.contains("Start Economy Mode")) {
-            glide_keepFlying_arrivedAtDestination++;
-
-        }
-
-        if (logs.contains("Glide aspect") && logs.contains("SafeLand aspect") && logs.contains("Arrived at destination aspect") && logs.contains("Continue Normal Mode aspect")
-                && logs.contains("keep Flying aspect")
-                && !logs.contains("Move aside aspect")
-                && !logs.contains("Start Economy Mode")) {
-            glide_continueNormalMode_keepFlying_arrivedAtDestination++;
-
-        }
-
-        if (logs.contains("Glide aspect") && logs.contains("SafeLand aspect") && logs.contains("Arrived at destination aspect") && logs.contains("Start Economy Mode")
-                && logs.contains("keep Flying aspect")
-                && !logs.contains("Move aside aspect")
-                && !logs.contains("Continue Normal Mode aspect")) {
-            glide_startEconomyMode_keepFlying_arrivedAtDestination++;
-
-        }
-
-        if (logs.contains("Glide aspect") && logs.contains("SafeLand aspect") && logs.contains("Drone landed successfully aspect")
-                && !logs.contains("keep Flying aspect")
-                && logs.contains("Move aside aspect")
-                && !logs.contains("Continue Normal Mode aspect")
-                && !logs.contains("Start Economy Mode")) {
-            glide_moveAside_droneLandedSucessfully++;
-
-        }
-
-        if (logs.contains("Glide aspect") && logs.contains("SafeLand aspect") && logs.contains("Drone landed successfully aspect")  && logs.contains("Continue Normal Mode aspect")
-                && !logs.contains("keep Flying aspect")
-                && logs.contains("Move aside aspect")
-                && !logs.contains("Start Economy Mode")) {
-            glide_continueNormalMode_moveAside_droneLandedSucessfully++;
-
-        }
-
-        if (logs.contains("Glide aspect") && logs.contains("SafeLand aspect") && logs.contains("Drone landed successfully aspect") && logs.contains("Start Economy Mode")
-                && !logs.contains("keep Flying aspect")
-                && logs.contains("Move aside aspect")
-                && !logs.contains("Continue Normal Mode aspect")) {
-            glide_startEconomyMode_moveAside_droneLandedSucessfully++;
-
-        }
-
-
-        if (logs.contains("Glide aspect") && !logs.contains("SafeLand") && !logs.contains("keep Flying aspect") && logs.contains("Continue Normal Mode aspect") && logs.contains("Arrived at destination")
-                && !logs.contains("Move aside aspect")
-                && !logs.contains("Start Economy Mode")) {
-
-            continueNormalMode_glide_arrivedAtDestination++;
-
-        }
-
-        if (logs.contains("Glide aspect") && logs.contains("SafeLand") && logs.contains("Drone landed successfully") && logs.contains("Continue Normal Mode aspect")
-                && !logs.contains("keep Flying aspect")
-                && !logs.contains("Move aside aspect")) {
-
-            continueNormalMode_glide_safeLand_droneLandedSucessfully++;
-
-        }
-
-        if (logs.contains("Glide aspect") && logs.contains("SafeLand") && logs.contains("Drone landed on water")  && logs.contains("Continue Normal Mode aspect")
-                && !logs.contains("keep Flying aspect")
-                && !logs.contains("Move aside aspect")) {
-            continueNormalMode_glide_safeLand_DroneLandedOnWater++;
-
-        }
-
-        if (logs.contains("Glide aspect") && logs.contains("SafeLand aspect") && logs.contains("Arrived at destination aspect") && logs.contains("Continue Normal Mode aspect")
-                && logs.contains("keep Flying aspect")
-                && !logs.contains("Move aside aspect")) {
-            continueNormalMode_glide_keepFlying_arrivedAtDestination++;
-
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*//*
-        if (logs.contains("keep Flying aspect") && logs.contains("Arrived at destination aspect") && !logs.contains("Glide aspect")) {
-            landedAtDestinationByKeepFlyingCount++;
-
-        }   if (logs.contains("SafeLand")  && !logs.contains("Glide aspect") && !logs.contains("keep Flying aspect")) {
-            safelandNormalCount++;
-
-        }  if (logs.contains("Move aside aspect") && logs.contains("Drone landed successfully aspect")) {
-            landedOnGroundAfterMovingAsideCount++;
-
-        }  if (logs.contains("SafeLand") && logs.contains("Drone landed on water") && !logs.contains("Glide aspect")) {
-            landedOnWaterCount++;
-
-        } if(logs.contains("SafeLand") && logs.contains("Drone landed successfully") && !logs.contains("Glide aspect")){
-            landedOnGroundCount++;
-        }
-
-         if(logs.contains("Return to home completed successfully" ) && !logs.contains("Glide aspect")){
-            returnToHome_returntoHomeCompletedSuccessfully++;
-
-        } if(logs.contains("Return to Home") && logs.contains("SafeLand") && !logs.contains("Glide aspect")){
-            safeLandedWhileReturningToHomeCount++;
-
-        } if(logs.contains("Glide aspect") && logs.contains("SafeLand")){
-            glideAndSafeLandCount++;
-        }
-        if(logs.contains("Glide aspect") && logs.contains("Arrived at destination") && !logs.contains("keep Flying aspect")){
-            glideAndLandedAtDestinationNormallyCount++;
-        }
-        if(logs.contains("Glide aspect") && logs.contains("keep Flying aspect")&& logs.contains("Arrived at destination")){
-            glidedAndLandedAtDestinationByKeepFlyingCount++;
-        }*//*
-    }*/
-
 
     private boolean checkExistFile() {
         return selectedFile != null;
