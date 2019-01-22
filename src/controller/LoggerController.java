@@ -1,6 +1,8 @@
 package controller;
 
 import javafx.application.Platform;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextArea;
 
 public final class LoggerController {

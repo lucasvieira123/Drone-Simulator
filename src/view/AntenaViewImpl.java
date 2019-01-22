@@ -16,7 +16,7 @@ import java.util.*;
 public class AntenaViewImpl extends Group implements AntenaView {
 
 
-    private static int COUNT_ANTENNA = 0;
+    public static int COUNT_ANTENNA = 0;
     private final Antenna antena;
     private final ImageView imageView2;
     private ImageView imageView;
@@ -25,7 +25,7 @@ public class AntenaViewImpl extends Group implements AntenaView {
     public AntenaViewImpl(Cell cellSelected) {
         EnvironmentView environmentView = cellSelected.getEnvironmentView();
 
-       getBadConnectionArea(cellSelected);
+        getBadConnectionArea(cellSelected);
 
 
         COUNT_ANTENNA++;
@@ -71,6 +71,7 @@ public class AntenaViewImpl extends Group implements AntenaView {
         cellList.add(environmentView.getCellFrom(i+1,j+1));
     }
 
+
     private void addbadConnectionInSpecificArea() {
 
 
@@ -83,26 +84,26 @@ public class AntenaViewImpl extends Group implements AntenaView {
 
 
 
-                    Platform.runLater(() -> {
+                Platform.runLater(() -> {
 
-                        if(randomDouble>0.6){
-                            for(Cell cell : cellList){
-                                cell.setBadConnection(true);
-                            }
-
-                            imageView2.setVisible(true);
-                        }else {
-                            for(Cell cell : cellList){
-                                cell.setBadConnection(false);
-                            }
-
-                            imageView2.setVisible(false);
+                    if(randomDouble>0.6){
+                        for(Cell cell : cellList){
+                            cell.setBadConnection(true);
                         }
 
+                        imageView2.setVisible(true);
+                    }else {
+                        for(Cell cell : cellList){
+                            cell.setBadConnection(false);
+                        }
+
+                        imageView2.setVisible(false);
+                    }
 
 
 
-                    });
+
+                });
 
 
 
@@ -112,6 +113,7 @@ public class AntenaViewImpl extends Group implements AntenaView {
             }
         }, 0, 2000);
     }
+
 
 
     @Override

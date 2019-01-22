@@ -18,6 +18,9 @@ import view.res.EnvironmentView;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
 public class DroneViewImpl extends Group implements DroneView {
@@ -34,9 +37,19 @@ public class DroneViewImpl extends Group implements DroneView {
     public LoggerController loggerController = LoggerController.getInstance();
 
     private TimerTask batteryDecrementertimerTask;
+   /* private Timer batteryDecrementerTimer;*/
+   private ScheduledExecutorService batteryDecrementerExecutor;
+
     private TimerTask goAutomaticDestinyTimerTask;
+   /* private Timer goAutomaticDestinyTimer;*/
+     private ScheduledExecutorService goAutomaticDestinyExecutor;
+
     private TimerTask returnToHomeTimerTask;
+    private ScheduledExecutorService returnToHomeExecutor;
+
     private KeyCode currentCommand;
+  /*  private Timer returnToHomeTimer;*/
+
 
 
     public DroneViewImpl(Cell currentCell, Hospital sourceHospital, Hospital destinyHopistal) {
@@ -119,7 +132,7 @@ public class DroneViewImpl extends Group implements DroneView {
 
             goDestinyAutomatic();
 
-           return;
+            return;
         }
 
         if(!drone.isAutomatic()){
@@ -178,7 +191,6 @@ public class DroneViewImpl extends Group implements DroneView {
         if(drone.getCurrentBattery() <= 15){
             applyEconomyMode();
         }
-
         if(drone.getCurrentBattery() <= 10 && drone.getDistanceHospitalDestiny()>0 && !drone.isSafeLand()){
             stopGoAutomaticDestiny();
             stopBatteryDecrementer();
@@ -277,13 +289,14 @@ public class DroneViewImpl extends Group implements DroneView {
     }
 
     public void checkAndPrintIfLostDrone() {
+        System.out.println("drone.getDistanceHospitalDestiny():"+ drone.getDistanceHospitalDestiny() );
 
         if(drone.isReturningToHome() && drone.getDistanceHospitalSource()==0){
-            System.out.println("Drone["+drone.getId()+"] "+"Return to home completed successfully ");
-            loggerController.print("Drone["+drone.getId()+"] "+"Return to home completed successfully ");
+            System.out.println("Drone["+drone.getId()+"] "+"Return to home completed successfully");
+            loggerController.print("Drone["+drone.getId()+"] "+"Return to home completed successfully");
             return;
         }
-        if(drone.isGoingAutomaticToDestiny() && drone.getDistanceHospitalDestiny() ==0){
+        if(drone.getDistanceHospitalDestiny() == 0){
             System.out.println("Drone["+drone.getId()+"] "+"Arrived at destination");
             loggerController.print("Drone["+drone.getId()+"] "+"Arrived at destination");
             return;
@@ -299,8 +312,8 @@ public class DroneViewImpl extends Group implements DroneView {
             System.out.println("Drone["+drone.getId()+"] "+"Drone landed on water");
             loggerController.print("Drone["+drone.getId()+"] "+"Drone landed on water");
         }else {
-            System.out.println("Drone["+drone.getId()+"] "+"Drone landed sucessfully");
-            loggerController.print("Drone["+drone.getId()+"] "+"Drone landed sucessfully");
+            System.out.println("Drone["+drone.getId()+"] "+"Drone landed successfully");
+            loggerController.print("Drone["+drone.getId()+"] "+"Drone landed successfully");
         }
 
 
@@ -314,41 +327,42 @@ public class DroneViewImpl extends Group implements DroneView {
         // irregular moviments
         if(drone.isEconomyMode()){
             Random random = new Random();
-             double value = random.nextDouble();
+            double value = random.nextDouble();
 
-             // right moviments
-             if(value>0.8){
-                 if(keyCode == KeyCode.D){
-                     flyingRight();
-                 }
-                 else if(keyCode == KeyCode.A){
-                     flyingLeft();
-                 }
-                 else if(keyCode == KeyCode.W){
-                     flyingUp();
-                 }
-                 else if(keyCode == KeyCode.S){
-                     flyingDown();
-                 }
-             }else {
-                 //wrong moviments
+            // right moviments
+            if(value>0.8){
+                if(keyCode == KeyCode.D){
+                    flyingRight();
+                }
+                else if(keyCode == KeyCode.A){
+                    flyingLeft();
+                }
+                else if(keyCode == KeyCode.W){
+                    flyingUp();
+                }
+                else if(keyCode == KeyCode.S){
+                    flyingDown();
+                }
+            }else {
+                //wrong moviments
 
-                 int randomNum = 0 + (int) (Math.random() * 4);
-                 System.out.println("Random number " + randomNum);
+                int randomNum = 0 + (int) (Math.random() * 4);
+                System.out.println("Random number " + randomNum);
 
-                 if(randomNum==0){
-                     flyingRight();
-                 }
-                 else if(randomNum==1){
-                     flyingLeft();
-                 }
-                 else if(randomNum==2){
-                     flyingUp();
-                 }
-                 else if( randomNum==3){
-                     flyingDown();
-                 }
-             }
+                if(randomNum==0){
+                    flyingLeft();
+                }
+                else if(randomNum==1){
+                    flyingLeft();
+                }
+                else if(randomNum==2){
+
+                }
+                else if( randomNum==3){
+
+                }
+            }
+
 
 
         }else {
@@ -375,7 +389,9 @@ public class DroneViewImpl extends Group implements DroneView {
         int newJ = drone.getCurrentPositionJ();
         newI = newI+1;
 
-        if(newI>7 || newI <0){
+
+        if(newI>11 || newI <0){
+
             return;
         }
 
@@ -388,7 +404,8 @@ public class DroneViewImpl extends Group implements DroneView {
         int newJ = drone.getCurrentPositionJ();
         newI = newI-1;
 
-        if(newI>7 || newI <0){
+
+        if(newI>11 || newI <0){
             return;
         }
 
@@ -400,7 +417,9 @@ public class DroneViewImpl extends Group implements DroneView {
         int newJ = drone.getCurrentPositionJ();
         newJ = newJ -1;
 
-        if(newJ>19 || newJ <0){
+
+        if(newJ>29 || newJ <0){
+
             return;
         }
         drone.setCurrentPositionJ(newJ);
@@ -412,13 +431,15 @@ public class DroneViewImpl extends Group implements DroneView {
 
         newJ = newJ +1;
 
-        if(newJ>19 || newJ <0){
+
+        if(newJ>29 || newJ <0){
+
             return;
         }
         drone.setCurrentPositionJ(newJ);
     }
 
-   synchronized public void updateDistances() {
+    synchronized public void updateDistances() {
         updateDistanceHospitalSource();
         updateDistanceHospitalDestiny();
     }
@@ -503,7 +524,7 @@ public class DroneViewImpl extends Group implements DroneView {
 
         checkAndPrintIfLostDrone();
 
-        }
+    }
 
     synchronized public void updateBattery() {
         double newValueBattery;
@@ -518,7 +539,7 @@ public class DroneViewImpl extends Group implements DroneView {
 
     public double calculeteDistanceFrom(Hospital hospital) {
 
-       /* System.out.println((drone.getCurrentPositionI()+1)+" "+(drone.getCurrentPositionJ()+1)+" "+ (hospital.getiPosition()+1) +" "+ (hospital.getjPosition()+1));*/
+        /* System.out.println((drone.getCurrentPositionI()+1)+" "+(drone.getCurrentPositionJ()+1)+" "+ (hospital.getiPosition()+1) +" "+ (hospital.getjPosition()+1));*/
         int xInitial = (drone.getCurrentPositionJ()+1)*30,
                 xFinal= (hospital.getjPosition()+1)*30,
                 yInitial = (drone.getCurrentPositionI()+1)*30,
@@ -532,16 +553,29 @@ public class DroneViewImpl extends Group implements DroneView {
 
     }
 
-   synchronized public void updadePositionDroneView() {
-        currentCell.getChildren().remove(this);
+    synchronized public void updadePositionDroneView() {
 
-         System.out.println((drone.getCurrentPositionI()+" "+drone.getCurrentPositionJ()));
+        if(currentCell== null){
+            return;
+        }
+
+        if(currentCell!= null &&currentCell.getChildren()!= null){
+            if(currentCell.getChildren().contains(this)){
+                currentCell.getChildren().remove(this);
+            }
+        }
+
+
+        System.out.println((drone.getCurrentPositionI()+" "+drone.getCurrentPositionJ()));
         Cell newCell = environmentView.getCellFrom(drone.getCurrentPositionI(),drone.getCurrentPositionJ());
         currentCell = newCell;
 
-        if(!currentCell.getChildren().contains(this)){
-            currentCell.getChildren().add(this);
+        if(currentCell!= null && currentCell.getChildren()!= null){
+            if(!currentCell.getChildren().contains(this)){
+                currentCell.getChildren().add(this);
+            }
         }
+
 
         updateDistances();
 
@@ -565,9 +599,15 @@ public class DroneViewImpl extends Group implements DroneView {
         setScaleY(1.4);
     }
 
-     synchronized public Node updateItIsOver() {
+    synchronized public Node updateItIsOver() {
+
+        if(currentCell== null){
+             return null;
+        }
 
         drone.getOnTopOfList().clear();
+
+
 
         for(Node node :currentCell.getChildren()){
 
@@ -575,7 +615,7 @@ public class DroneViewImpl extends Group implements DroneView {
                 continue;
             }
 
-           drone.addOnTopOfDroneList(node);
+            drone.addOnTopOfDroneList(node);
         }
         if(!drone.getOnTopOfList().isEmpty()){
             //System.out.println(drone.getOnTopOfList().get(drone.getOnTopOfList().size()-1));
@@ -589,40 +629,48 @@ public class DroneViewImpl extends Group implements DroneView {
 
         System.out.println("Start startBatteryDecrementer");
 
-        Timer timer = new Timer();
-         batteryDecrementertimerTask = new TimerTask() {
+        /* batteryDecrementerTimer = new Timer();*/
+        batteryDecrementertimerTask = new TimerTask() {
             @Override
             public void run() {
-                if(drone.isStarted()){
+                Platform.runLater(() -> {
+                    if(drone.isStarted()){
 
-                    double batteryPerSecond = drone.getBatteryPerSecond();
-                    double newValueBattery;
+                        double batteryPerSecond = drone.getBatteryPerSecond();
+                        double newValueBattery;
 
-                    if(drone.isEconomyMode()){
-                        newValueBattery = drone.getCurrentBattery()-(batteryPerSecond/2);
-                    }else {
-                        newValueBattery = drone.getCurrentBattery()-(batteryPerSecond);
+                        if(drone.isEconomyMode()){
+                            newValueBattery = drone.getCurrentBattery()-(batteryPerSecond/2);
+                        }else {
+                            newValueBattery = drone.getCurrentBattery()-(batteryPerSecond);
+                        }
+
+                        drone.setCurrentBattery(newValueBattery);
+
+
+                        System.out.println("Drone["+drone.getId()+"] "+drone.getCurrentBattery()+"%");
+                        loggerController.print("Drone["+drone.getId()+"] "+"Current Battery "+ drone.getCurrentBattery()+"%");
+
+
+                        checkStatus();
                     }
+                });
 
-                    drone.setCurrentBattery(newValueBattery);
-
-
-                    System.out.println("Drone["+drone.getId()+"] "+drone.getCurrentBattery()+"%");
-                    loggerController.print("Drone["+drone.getId()+"] "+"Current Battery "+ drone.getCurrentBattery()+"%");
-
-
-                    checkStatus();
-                }
 
 
             }
         };
 
-        timer.scheduleAtFixedRate(batteryDecrementertimerTask,0,1000);
+        /*batteryDecrementerTimer.scheduleAtFixedRate(batteryDecrementertimerTask,0,1000);*/
+
+        batteryDecrementerExecutor = Executors.newSingleThreadScheduledExecutor();
+
+        batteryDecrementerExecutor.scheduleAtFixedRate(batteryDecrementertimerTask, 0, 1000, TimeUnit.MILLISECONDS);
+
+
 
 
     }
-
     public void applyEconomyMode() {
 
         if(drone.isEconomyMode()){
@@ -645,7 +693,7 @@ public class DroneViewImpl extends Group implements DroneView {
 
         updateItIsOver();
 
-        Timer timer = new Timer();
+       /* goAutomaticDestinyTimer = new Timer();*/
         goAutomaticDestinyTimerTask = new TimerTask() {
             @Override
             public void run() {
@@ -728,7 +776,11 @@ public class DroneViewImpl extends Group implements DroneView {
         };
 
 
-        timer.scheduleAtFixedRate(goAutomaticDestinyTimerTask,0,1000);
+    /*    goAutomaticDestinyTimer.scheduleAtFixedRate(goAutomaticDestinyTimerTask,0,1000);*/
+
+         goAutomaticDestinyExecutor = Executors.newSingleThreadScheduledExecutor();
+        goAutomaticDestinyExecutor.scheduleAtFixedRate(goAutomaticDestinyTimerTask, 0, 1000, TimeUnit.MILLISECONDS);
+
 
 
     }
@@ -780,7 +832,7 @@ public class DroneViewImpl extends Group implements DroneView {
     @Override
     public void notifyNormalConnection(){
 
-            drone.setBadConnection(false);
+        drone.setBadConnection(false);
 
 
     }
@@ -801,7 +853,11 @@ public class DroneViewImpl extends Group implements DroneView {
     public void stopBatteryDecrementer() {
         try {
             System.out.println("stop BatteryDecrementertimerTask");
-            batteryDecrementertimerTask.cancel();
+           /* batteryDecrementertimerTask.cancel();*/
+            batteryDecrementerExecutor.shutdownNow();
+         /*   batteryDecrementerExecutor.shutdown();*/
+           /* batteryDecrementerTimer.purge();
+            batteryDecrementerTimer.cancel();*/
         }catch (Exception e){
 
         }
@@ -813,7 +869,12 @@ public class DroneViewImpl extends Group implements DroneView {
 
         try {
             System.out.println("stop goAutomaticDestinyTimerTask");
-            goAutomaticDestinyTimerTask.cancel();
+           /* goAutomaticDestinyTimerTask.cancel();*/
+            goAutomaticDestinyExecutor.shutdownNow();
+          /*  goAutomaticDestinyExecutor.shutdown();*/
+
+            /*goAutomaticDestinyTimer.purge();
+            goAutomaticDestinyTimer.cancel();*/
         }catch (Exception e){
 
         }
@@ -823,7 +884,14 @@ public class DroneViewImpl extends Group implements DroneView {
 
     public void stopReturnToHome() {
         try {
-            returnToHomeTimerTask.cancel();
+        /*    returnToHomeTimerTask.cancel();*/
+            returnToHomeExecutor.shutdownNow();
+            /*returnToHomeExecutor.shutdown();*/
+            /*returnToHomeTimer.purge();
+            returnToHomeTimer.cancel();*/
+
+
+
         }catch (Exception e){
 
         }
@@ -887,77 +955,80 @@ public class DroneViewImpl extends Group implements DroneView {
         System.out.println("Drone["+drone.getId()+"] "+"Return to Home");
         loggerController.print("Drone["+drone.getId()+"] "+"Return to Home");
 
-       Timer timer = new Timer();
-       returnToHomeTimerTask = new TimerTask() {
-           @Override
-           public void run() {
+       /* returnToHomeTimer = new Timer();*/
+        returnToHomeTimerTask = new TimerTask() {
+            @Override
+            public void run() {
 
-               Platform.runLater(() -> {
-
-
-                   int oldI = drone.getCurrentPositionI();
-                   int oldJ = drone.getCurrentPositionJ();
-                   double newDistanceSource = 999999;
-                   String mustGO = null;
-
-                   double tempDistance = distanceDroneWentRight(drone.getSourceHospital());
-
-                   if(tempDistance < newDistanceSource){
-                       newDistanceSource = tempDistance;
-                       mustGO ="->";
-                   }
-
-                   drone.setCurrentPositionI(oldI);
-                   drone.setCurrentPositionJ(oldJ);
-
-                   tempDistance = distanceDroneWentLeft(drone.getSourceHospital());
-
-                   if(tempDistance<newDistanceSource){
-                       newDistanceSource = tempDistance;
-                       mustGO ="<-";
-                   }
-
-                   drone.setCurrentPositionI(oldI);
-                   drone.setCurrentPositionJ(oldJ);
-
-                   tempDistance = distanceDroneWentUp(drone.getSourceHospital());
-
-                   if(tempDistance<newDistanceSource){
-                       newDistanceSource = tempDistance;
-                       mustGO ="/\\";
-
-                   }
-
-                   drone.setCurrentPositionI(oldI);
-                   drone.setCurrentPositionJ(oldJ);
-
-                   tempDistance = distanceDroneWentDown(drone.getSourceHospital());
-
-                   if(tempDistance<newDistanceSource){
-                       newDistanceSource = tempDistance;
-                       mustGO ="\\/";
-
-                   }
-
-                   drone.setCurrentPositionI(oldI);
-                   drone.setCurrentPositionJ(oldJ);
+                Platform.runLater(() -> {
 
 
-                   goTo(mustGO);
+                    int oldI = drone.getCurrentPositionI();
+                    int oldJ = drone.getCurrentPositionJ();
+                    double newDistanceSource = 999999;
+                    String mustGO = null;
 
-                   updadePositionDroneView();
-                   updateBattery();
-                   checkStatus();
+                    double tempDistance = distanceDroneWentRight(drone.getSourceHospital());
+
+                    if(tempDistance < newDistanceSource){
+                        newDistanceSource = tempDistance;
+                        mustGO ="->";
+                    }
+
+                    drone.setCurrentPositionI(oldI);
+                    drone.setCurrentPositionJ(oldJ);
+
+                    tempDistance = distanceDroneWentLeft(drone.getSourceHospital());
+
+                    if(tempDistance<newDistanceSource){
+                        newDistanceSource = tempDistance;
+                        mustGO ="<-";
+                    }
+
+                    drone.setCurrentPositionI(oldI);
+                    drone.setCurrentPositionJ(oldJ);
+
+                    tempDistance = distanceDroneWentUp(drone.getSourceHospital());
+
+                    if(tempDistance<newDistanceSource){
+                        newDistanceSource = tempDistance;
+                        mustGO ="/\\";
+
+                    }
+
+                    drone.setCurrentPositionI(oldI);
+                    drone.setCurrentPositionJ(oldJ);
+
+                    tempDistance = distanceDroneWentDown(drone.getSourceHospital());
+
+                    if(tempDistance<newDistanceSource){
+                        newDistanceSource = tempDistance;
+                        mustGO ="\\/";
+
+                    }
+
+                    drone.setCurrentPositionI(oldI);
+                    drone.setCurrentPositionJ(oldJ);
+
+
+                    goTo(mustGO);
+
+                    updadePositionDroneView();
+                    updateBattery();
+                    checkStatus();
 
 
 
-               });
+                });
 
-           }
-       };
+            }
+        };
 
 
-        timer.scheduleAtFixedRate(returnToHomeTimerTask,0,1000);
+        /*returnToHomeTimer.scheduleAtFixedRate(returnToHomeTimerTask,0,1000);*/
+        returnToHomeExecutor = Executors.newSingleThreadScheduledExecutor();
+        returnToHomeExecutor.scheduleAtFixedRate(returnToHomeTimerTask, 0, 1000, TimeUnit.MILLISECONDS);
+
 
 
     }
@@ -989,32 +1060,33 @@ public class DroneViewImpl extends Group implements DroneView {
                         break;
                 }
             }else {
-            //wrong moviments
 
-            int randomNum = 0 + (int) (Math.random() * 4);
+                //wrong moviments
+
+                int randomNum = 0 + (int) (Math.random() * 4);
 
                 switch (randomNum){
                     case 0:
-                        flyingRight();
-                        break;
-
-                    case 1:
                         flyingLeft();
                         break;
 
+                    case 1:
+                        flyingRight();
+                        break;
+
                     case 2:
-                        flyingUp();
+
                         break;
 
                     case 3:
-                        flyingDown();
+
                         break;
                 }
 
-        }
+            }
 
-       // normal moviments
-    }else {
+            // normal moviments
+        }else {
             switch (mustGO){
                 case "->":
                     flyingRight();
@@ -1032,7 +1104,10 @@ public class DroneViewImpl extends Group implements DroneView {
                     flyingDown();
                     break;
             }
-    }
+
+        }
+
+
     }
 
     public double distanceDroneWentUp(Hospital hospital) {

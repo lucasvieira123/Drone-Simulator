@@ -10,7 +10,7 @@ import javafx.scene.text.TextAlignment;
 import model.Hospital;
 
 public class HospitalImpl extends Group implements HospitalView {
-    private static  int COUNT_HOSPITAL = 0;
+    public static  int COUNT_HOSPITAL = 0;
     public static double width = 64;
     public static double height = 64;
     private final Hospital hospital;
