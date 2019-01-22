@@ -314,7 +314,7 @@ public aspect Aspect {
 
 
 
-    pointcut applyEconimicMode() : call (void view.DroneViewImpl.applyEconomyMode());
+   /* pointcut applyEconimicMode() : call (void view.DroneViewImpl.applyEconomyMode());
     void around() : applyEconimicMode() &&
             if(((Drone)((DroneViewImpl) thisJoinPoint.getTarget()).getDrone()).isAspect())
             {
@@ -331,7 +331,7 @@ public aspect Aspect {
                 normalMode(droneView);
 
                 System.out.println(" Fim Aspect");
-            }
+            }*/
 
     private void normalMode(DroneViewImpl droneView) {
         Drone drone = (Drone) droneView.getDrone();

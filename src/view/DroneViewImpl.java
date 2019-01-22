@@ -18,6 +18,9 @@ import view.res.EnvironmentView;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 
 public class DroneViewImpl extends Group implements DroneView {
@@ -34,9 +37,19 @@ public class DroneViewImpl extends Group implements DroneView {
     public LoggerController loggerController = LoggerController.getInstance();
 
     private TimerTask batteryDecrementertimerTask;
+   /* private Timer batteryDecrementerTimer;*/
+   private ScheduledExecutorService batteryDecrementerExecutor;
+
     private TimerTask goAutomaticDestinyTimerTask;
+   /* private Timer goAutomaticDestinyTimer;*/
+     private ScheduledExecutorService goAutomaticDestinyExecutor;
+
     private TimerTask returnToHomeTimerTask;
+    private ScheduledExecutorService returnToHomeExecutor;
+
     private KeyCode currentCommand;
+  /*  private Timer returnToHomeTimer;*/
+
 
 
     public DroneViewImpl(int Id, Cell currentCell, Hospital sourceHospital, Hospital destinyHopistal) {
@@ -175,7 +188,7 @@ public class DroneViewImpl extends Group implements DroneView {
 
         }
 
-       /* if(drone.getCurrentBattery() <= 15){
+    /*    if(drone.getCurrentBattery() <= 15){
             applyEconomyMode();
         }*/
         if(drone.getCurrentBattery() <= 10 && drone.getDistanceHospitalDestiny()>0 && !drone.isSafeLand()){
@@ -608,40 +621,48 @@ public class DroneViewImpl extends Group implements DroneView {
 
         System.out.println("Start startBatteryDecrementer");
 
-        Timer timer = new Timer();
+        /* batteryDecrementerTimer = new Timer();*/
         batteryDecrementertimerTask = new TimerTask() {
             @Override
             public void run() {
-                if(drone.isStarted()){
+                Platform.runLater(() -> {
+                    if(drone.isStarted()){
 
-                    double batteryPerSecond = drone.getBatteryPerSecond();
-                    double newValueBattery;
+                        double batteryPerSecond = drone.getBatteryPerSecond();
+                        double newValueBattery;
 
-                    if(drone.isEconomyMode()){
-                        newValueBattery = drone.getCurrentBattery()-(batteryPerSecond/2);
-                    }else {
-                        newValueBattery = drone.getCurrentBattery()-(batteryPerSecond);
+                        if(drone.isEconomyMode()){
+                            newValueBattery = drone.getCurrentBattery()-(batteryPerSecond/2);
+                        }else {
+                            newValueBattery = drone.getCurrentBattery()-(batteryPerSecond);
+                        }
+
+                        drone.setCurrentBattery(newValueBattery);
+
+
+                        System.out.println("Drone["+drone.getId()+"] "+drone.getCurrentBattery()+"%");
+                        loggerController.print("Drone["+drone.getId()+"] "+"Current Battery "+ drone.getCurrentBattery()+"%");
+
+
+                        checkStatus();
                     }
+                });
 
-                    drone.setCurrentBattery(newValueBattery);
-
-
-                    System.out.println("Drone["+drone.getId()+"] "+drone.getCurrentBattery()+"%");
-                    loggerController.print("Drone["+drone.getId()+"] "+"Current Battery "+ drone.getCurrentBattery()+"%");
-
-
-                    checkStatus();
-                }
 
 
             }
         };
 
-        timer.scheduleAtFixedRate(batteryDecrementertimerTask,0,1000);
+        /*batteryDecrementerTimer.scheduleAtFixedRate(batteryDecrementertimerTask,0,1000);*/
+
+        batteryDecrementerExecutor = Executors.newSingleThreadScheduledExecutor();
+
+        batteryDecrementerExecutor.scheduleAtFixedRate(batteryDecrementertimerTask, 0, 1000, TimeUnit.MILLISECONDS);
+
+
 
 
     }
-/*
     public void applyEconomyMode() {
 
         if(drone.isEconomyMode()){
@@ -652,7 +673,7 @@ public class DroneViewImpl extends Group implements DroneView {
 
         System.out.println("Drone["+drone.getId()+"] "+"Start Economy Mode");
         loggerController.print("Drone["+drone.getId()+"] "+"Start Economy Mode");
-    }*/
+    }
 
     public void goDestinyAutomatic() {
         drone.setGoingAutomaticToDestiny(true);
@@ -664,7 +685,7 @@ public class DroneViewImpl extends Group implements DroneView {
 
         updateItIsOver();
 
-        Timer timer = new Timer();
+       /* goAutomaticDestinyTimer = new Timer();*/
         goAutomaticDestinyTimerTask = new TimerTask() {
             @Override
             public void run() {
@@ -747,7 +768,11 @@ public class DroneViewImpl extends Group implements DroneView {
         };
 
 
-        timer.scheduleAtFixedRate(goAutomaticDestinyTimerTask,0,1000);
+    /*    goAutomaticDestinyTimer.scheduleAtFixedRate(goAutomaticDestinyTimerTask,0,1000);*/
+
+         goAutomaticDestinyExecutor = Executors.newSingleThreadScheduledExecutor();
+        goAutomaticDestinyExecutor.scheduleAtFixedRate(goAutomaticDestinyTimerTask, 0, 1000, TimeUnit.MILLISECONDS);
+
 
 
     }
@@ -820,7 +845,11 @@ public class DroneViewImpl extends Group implements DroneView {
     public void stopBatteryDecrementer() {
         try {
             System.out.println("stop BatteryDecrementertimerTask");
-            batteryDecrementertimerTask.cancel();
+           /* batteryDecrementertimerTask.cancel();*/
+            batteryDecrementerExecutor.shutdownNow();
+         /*   batteryDecrementerExecutor.shutdown();*/
+           /* batteryDecrementerTimer.purge();
+            batteryDecrementerTimer.cancel();*/
         }catch (Exception e){
 
         }
@@ -832,7 +861,12 @@ public class DroneViewImpl extends Group implements DroneView {
 
         try {
             System.out.println("stop goAutomaticDestinyTimerTask");
-            goAutomaticDestinyTimerTask.cancel();
+           /* goAutomaticDestinyTimerTask.cancel();*/
+            goAutomaticDestinyExecutor.shutdownNow();
+          /*  goAutomaticDestinyExecutor.shutdown();*/
+
+            /*goAutomaticDestinyTimer.purge();
+            goAutomaticDestinyTimer.cancel();*/
         }catch (Exception e){
 
         }
@@ -842,7 +876,14 @@ public class DroneViewImpl extends Group implements DroneView {
 
     public void stopReturnToHome() {
         try {
-            returnToHomeTimerTask.cancel();
+        /*    returnToHomeTimerTask.cancel();*/
+            returnToHomeExecutor.shutdownNow();
+            /*returnToHomeExecutor.shutdown();*/
+            /*returnToHomeTimer.purge();
+            returnToHomeTimer.cancel();*/
+
+
+
         }catch (Exception e){
 
         }
@@ -906,7 +947,7 @@ public class DroneViewImpl extends Group implements DroneView {
         System.out.println("Drone["+drone.getId()+"] "+"Return to Home");
         loggerController.print("Drone["+drone.getId()+"] "+"Return to Home");
 
-        Timer timer = new Timer();
+       /* returnToHomeTimer = new Timer();*/
         returnToHomeTimerTask = new TimerTask() {
             @Override
             public void run() {
@@ -976,7 +1017,10 @@ public class DroneViewImpl extends Group implements DroneView {
         };
 
 
-        timer.scheduleAtFixedRate(returnToHomeTimerTask,0,1000);
+        /*returnToHomeTimer.scheduleAtFixedRate(returnToHomeTimerTask,0,1000);*/
+        returnToHomeExecutor = Executors.newSingleThreadScheduledExecutor();
+        returnToHomeExecutor.scheduleAtFixedRate(returnToHomeTimerTask, 0, 1000, TimeUnit.MILLISECONDS);
+
 
 
     }

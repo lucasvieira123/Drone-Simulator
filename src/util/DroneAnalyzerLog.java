@@ -157,7 +157,7 @@ public class DroneAnalyzerLog extends Application {
             if (logsMap.containsKey(currentDroneIdentifier)) {
                 //remove log Flying and Current Battery
                 if (currentLog.equals("Flying") || currentLog.contains("Current Battery")
-                        /*|| currentLog.equals("Continue Normal Mode aspect")*/) {
+                        || currentLog.equals("Continue Normal Mode aspect")) {
                     continue;
                 }
 
@@ -170,7 +170,7 @@ public class DroneAnalyzerLog extends Application {
                 logsMap.put(currentDroneIdentifier, new LinkedList<>());
                 //remove log Flying and Current Battery
                 if (currentLog.equals("Flying") || currentLog.contains("Current Battery")
-                        /*|| currentLog.equals("Continue Normal Mode aspect")*/) {
+                        || currentLog.equals("Continue Normal Mode aspect")) {
                     continue;
                 }
                 logsMap.get(currentDroneIdentifier).add(currentLog);
@@ -182,7 +182,7 @@ public class DroneAnalyzerLog extends Application {
         answerTextArea.appendText("Amount of Drone:" + logsMap.size() + "\n");
 
         for (Map.Entry entry : logsMap.entrySet()) {
-            if ((int) entry.getKey() >= 1 && (int) entry.getKey() <= 50) {
+            if ((int) entry.getKey() >= 1 && (int) entry.getKey() <= 200) {
 
                 LinkedList<String> logs = (LinkedList<String>) entry.getValue();
                 countScenaries2(logs);
@@ -199,7 +199,7 @@ public class DroneAnalyzerLog extends Application {
 
 
         for (Map.Entry entry : logsMap.entrySet()) {
-            if ((int) entry.getKey() >= 51 && (int) entry.getKey() <= 100) {
+            if ((int) entry.getKey() >= 201 && (int) entry.getKey() <= 400 ) {
 
                 LinkedList<String> logs = (LinkedList<String>) entry.getValue();
                 countScenaries2(logs);
@@ -282,11 +282,14 @@ public class DroneAnalyzerLog extends Application {
 
 
     private void countScenaries2(LinkedList<String> logs){
-        if(logs.contains(ARRIVED_AT_DESTINATION)){
+        if(logs.contains(ARRIVED_AT_DESTINATION)
+                && !logs.contains(MOVE_ASIDE_ASPECT)
+                && !logs.contains(KEEP_FLYING_ASPECT)) {
             Landed_at_Destination_Normally_Count++;
         }
 
-        if(logs.contains(ARRIVED_AT_DESTINATION_ASPECT)){
+        if(logs.contains(ARRIVED_AT_DESTINATION_ASPECT)
+                && !logs.contains(MOVE_ASIDE_ASPECT)){
             Landed_at_Destination_by_Keep_Flying_Count++;
         }
 
@@ -295,7 +298,8 @@ public class DroneAnalyzerLog extends Application {
              Landed_on_ground_Count++;
         }
 
-        if(logs.contains(MOVE_ASIDE_ASPECT)){
+        if(logs.contains(MOVE_ASIDE_ASPECT)
+                && !logs.contains(RETURN_TO_HOME_COMPLETED_SUCCESSFULLY)){
             Landed_on_ground_after_moving_aside_Count++;
         }
 
@@ -303,7 +307,9 @@ public class DroneAnalyzerLog extends Application {
             Landed_on_Water_Count++;
         }
 
-        if(logs.contains(RETURN_TO_HOME_COMPLETED_SUCCESSFULLY)){
+        if(logs.contains(RETURN_TO_HOME_COMPLETED_SUCCESSFULLY)
+                && !logs.contains(SAFE_LAND_ASPECT)
+                && !logs.contains(SAFE_LAND)){
             Returned_to_Home_Count++;
         }
 
@@ -334,6 +340,97 @@ public class DroneAnalyzerLog extends Application {
         }
 
 
+    }
+
+
+    /*private void countScenaries2(LinkedList<String> logs){
+        if(logs.contains(ARRIVED_AT_DESTINATION)
+                && before(ARRIVED_AT_DESTINATION, SAFE_LAND_ASPECT, logs)
+                && before(ARRIVED_AT_DESTINATION, ARRIVED_AT_DESTINATION_ASPECT, logs)) {
+
+            Landed_at_Destination_Normally_Count++;
+        }
+
+        if(logs.contains(ARRIVED_AT_DESTINATION_ASPECT)
+                && before(ARRIVED_AT_DESTINATION_ASPECT, ARRIVED_AT_DESTINATION,logs)
+                && before(ARRIVED_AT_DESTINATION_ASPECT, SAFE_LAND, logs)
+                && before(ARRIVED_AT_DESTINATION_ASPECT, SAFE_LAND_ASPECT, logs)){
+            Landed_at_Destination_by_Keep_Flying_Count++;
+        }
+
+        if(logs.contains(DRONE_LANDED_SUCCESSFULLY)
+                ||logs.contains(DRONE_LANDED_SUCCESSFULLY_ASPECT))
+                ){
+            Landed_on_ground_Count++;
+        }
+
+        if(logs.contains(MOVE_ASIDE_ASPECT)
+                && !logs.contains(RETURN_TO_HOME_COMPLETED_SUCCESSFULLY)){
+            Landed_on_ground_after_moving_aside_Count++;
+        }
+
+        if(logs.contains(DRONE_LANDED_ON_WATER)){
+            Landed_on_Water_Count++;
+        }
+
+        if(logs.contains(RETURN_TO_HOME_COMPLETED_SUCCESSFULLY)
+                *//*&& !logs.contains(SAFE_LAND_ASPECT)
+                && !logs.contains(SAFE_LAND)*//*){
+            Returned_to_Home_Count++;
+        }
+
+        if(logs.contains(RETURN_TO_HOME)
+                && (logs.contains(SAFE_LAND) || (logs.contains(SAFE_LAND_ASPECT) ))){
+            SafeLanded_while_Returning_to_Home_Count++;
+        }
+
+        if(logs.contains(GLIDE_ASPECT)
+                && (logs.contains(SAFE_LAND) || (logs.contains(SAFE_LAND_ASPECT) ))){
+            Glided_and_SafeLanded_Count++;
+        }
+
+        if(logs.contains(GLIDE_ASPECT) && logs.contains(ARRIVED_AT_DESTINATION)){
+            Glided_and_Landed_at_Destination_Normally_Count++;
+        }
+
+        if(logs.contains(GLIDE_ASPECT) && logs.contains(ARRIVED_AT_DESTINATION_ASPECT)){
+            Glided_and_Landed_at_Destination_by_Keep_Flying_Count++;
+        }
+
+        if(logs.contains(START_ECONOMY_MODE)){
+            Activated_Economy_Mode_Count++;
+        }
+
+        if(logs.contains(START_ECONOMY_MODE) && (logs.contains(SAFE_LAND) || logs.contains(SAFE_LAND_ASPECT))){
+            Activated_Economy_Mode_and_SafeLanded_Count++;
+        }
+
+
+    }*/
+
+    private boolean before(String a, String b, LinkedList<String> logs) {
+        int indexA = 9999, indexB = 9999;
+        for( int i =0; i<logs.size(); i++){
+            if(a.equals(logs.get(i))){
+
+                if(i < indexA){
+                    indexA = i;
+                }
+
+            }
+
+            if(b.equals(logs.get(i))){
+                if(i < indexB){
+                    indexB = i;
+                }
+            }
+        }
+
+        if(indexA<indexB){
+            return true;
+        }else {
+            return false;
+        }
     }
 
     private boolean checkExistFile() {
