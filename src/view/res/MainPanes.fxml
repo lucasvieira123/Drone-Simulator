@@ -73,10 +73,10 @@
                </image>
             </ImageView>
             <CheckBox fx:id="wrapperCheckBox" disable="true" layoutX="398.0" layoutY="155.0" mnemonicParsing="false" text="Wrapper" />
-            <ComboBox fx:id="sourceComboBox" layoutX="324.0" layoutY="204.0" prefHeight="26.0" prefWidth="66.0" />
-            <ComboBox fx:id="targetComboBox" layoutX="447.0" layoutY="204.0" prefHeight="26.0" prefWidth="66.0" />
-            <Label fx:id="sourceLabel" layoutX="272.0" layoutY="209.0" text="Source:" />
-            <Label fx:id="targetLabel" layoutX="396.0" layoutY="209.0" text="Target:" />
+            <ComboBox fx:id="sourceComboBox" layoutX="324.0" layoutY="204.0" prefHeight="26.0" prefWidth="66.0"  disable="true"/>
+            <ComboBox fx:id="targetComboBox" layoutX="447.0" layoutY="204.0" prefHeight="26.0" prefWidth="66.0" disable="true"/>
+            <Label fx:id="sourceLabel" layoutX="272.0" layoutY="209.0" text="Source:" disable="true"/>
+            <Label fx:id="targetLabel" layoutX="396.0" layoutY="209.0" text="Target:" disable="true"/>
 
                         
                                  </children>
