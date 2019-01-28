@@ -19,7 +19,7 @@ public aspect Aspect {
             ((Drone)((DroneViewImpl) thisJoinPoint.getTarget()).getDrone()).isAspect()
             ){
 
-        System.out.println(" inicio Aspect around");
+        System.out.println(" Start Aspect around");
         DroneViewImpl droneView = (DroneViewImpl) thisJoinPoint.getTarget();
         Drone drone = (Drone) droneView.getDrone();
 
@@ -29,12 +29,10 @@ public aspect Aspect {
         System.out.println("drone.isAutomatic() "+drone.isAutomatic());
 
 
-        //  if(drone.isOnWater() && drone.getDistanceHospitalDestiny()<=60 && drone.isStrongWind()){
         keepFlying(droneView);
 
-        // }
 
-        System.out.println("fim Aspect");
+        System.out.println("finish Aspect");
     }
 
 
@@ -44,7 +42,7 @@ public aspect Aspect {
             ((Drone)((DroneViewImpl) thisJoinPoint.getTarget()).getDrone()).isAspect()
             ) {
 
-        System.out.println(" inicio Aspect around");
+        System.out.println(" Start Aspect around");
         DroneViewImpl droneView = (DroneViewImpl) thisJoinPoint.getTarget();
         Drone drone = (Drone) droneView.getDrone();
 
@@ -54,22 +52,16 @@ public aspect Aspect {
         System.out.println("drone.isStrongWind() "+drone.isStrongWind());
         System.out.println("drone.isAutomatic() "+drone.isAutomatic());
 
-        //  if(drone.isOnWater() && drone.getDistanceHospitalDestiny()>=60) {
-        moveASide(droneView);
-        //  }
 
-        System.out.println("fim Aspect");
+        moveASide(droneView);
+
+
+        System.out.println("finish Aspect");
 
     }
 
 
-
-
-
-
     private void moveASide(DroneViewImpl droneView) {
-
-
 
         Drone drone = (Drone) droneView.getDrone();
 
@@ -85,9 +77,9 @@ public aspect Aspect {
         System.out.println("Drone[" + drone.getId() + "] " + "Move aside aspect");
         droneView.loggerController.print("Drone[" + drone.getId() + "] " + "Move aside aspect");
 
+
+        /*Get off the river*/
         Timer timer = new Timer();
-
-
 
         TimerTask timerTask = new TimerTask() {
             @Override
@@ -113,17 +105,10 @@ public aspect Aspect {
 
         timer.scheduleAtFixedRate(timerTask, 0, 1000);
 
-      /*  try {
-            synchronized (mainThread){
-                mainThread.wait();
-            }
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
-
 
     }
 
+    /*This specific aspect method was created to avoid infinite loop*/
     private void safeLandingAspect(DroneViewImpl droneView) {
         Drone drone = (Drone) droneView.getDrone();
 
@@ -149,6 +134,7 @@ public aspect Aspect {
 
     }
 
+    /*This particular aspect method was created to differentiate the management*/
     private void shutDown(DroneViewImpl droneView) {
         Drone drone = (Drone) droneView.getDrone();
 
@@ -161,10 +147,8 @@ public aspect Aspect {
 
     }
 
-
+    /*Continues flying towards the destination hospital*/
     private void keepFlying(DroneViewImpl droneView) {
-
-        /* Thread mainThread = Thread.currentThread();*/
 
         Drone drone = (Drone) droneView.getDrone();
 
@@ -204,6 +188,7 @@ public aspect Aspect {
 
                 }
 
+                /*Flying towards the destination hospital*/
                 Platform.runLater(() -> {
                     try {
 
@@ -289,15 +274,9 @@ public aspect Aspect {
 
         timer.scheduleAtFixedRate(goAutomaticDestinyTimerTask,0,1000);
 
-      /*  try {
-            synchronized (mainThread){
-                mainThread.wait();
-            }git
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }*/
     }
 
+    /*This particular aspect method was created to differentiate the management*/
     private void landing(DroneViewImpl droneView) {
         Drone drone = (Drone) droneView.getDrone();
 
@@ -314,13 +293,13 @@ public aspect Aspect {
 
 
 
-    pointcut applyEconimicMode() : call (void view.drone.DroneViewImpl.applyEconomyMode());
-    void around() : applyEconimicMode() &&
+    pointcut applyEconomyMode() : call (void view.drone.DroneViewImpl.applyEconomyMode());
+    void around() : applyEconomyMode() &&
             if(((Drone)((DroneViewImpl) thisJoinPoint.getTarget()).getDrone()).isAspect())
             {
 
 
-                System.out.println(" Inicio Aspect");
+                System.out.println(" Start Aspect");
                 DroneViewImpl droneView = (DroneViewImpl) thisJoinPoint.getTarget();
                 Drone drone = (Drone) droneView.getDrone();
                 System.out.println("drone.isOnWater() "+drone.isOnWater());
@@ -330,9 +309,11 @@ public aspect Aspect {
 
                 normalMode(droneView);
 
-                System.out.println(" Fim Aspect");
+                System.out.println(" Finish Aspect");
             }
 
+
+    /*Continues in the normal mode of battery consumption*/
     private void normalMode(DroneViewImpl droneView) {
         Drone drone = (Drone) droneView.getDrone();
 
