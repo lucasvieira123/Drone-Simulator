@@ -1,7 +1,6 @@
 package view.antenna;
 
 import javafx.application.Platform;
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -15,7 +14,7 @@ import view.res.EnvironmentView;
 
 import java.util.*;
 
-public class AntenaViewImpl extends AntenaView {
+public class AntennaViewImpl extends AntennaView {
 
 
     public static int COUNT_ANTENNA = 0;
@@ -25,9 +24,11 @@ public class AntenaViewImpl extends AntenaView {
     private ImageView imageView;
     private List<CellView> cellViewList = new ArrayList<>();
     private Rectangle selectedRetangle;
+    private Timer timer;
+    private TimerTask timerTask;
 
 
-    public AntenaViewImpl(CellView cellViewSelected) {
+    public AntennaViewImpl(CellView cellViewSelected) {
         this.cellViewSelected =  cellViewSelected;
         EnvironmentView environmentView = cellViewSelected.getEnvironmentView();
 
@@ -81,7 +82,40 @@ public class AntenaViewImpl extends AntenaView {
     private void addbadConnectionInSpecificArea() {
 
 
-        Timer timer = new Timer();
+        timer = new Timer();
+        timerTask = new TimerTask() {
+            @Override
+            public void run() {
+                Random random = new Random();
+                double randomDouble = random.nextDouble();
+
+
+
+                Platform.runLater(() -> {
+
+                    if(randomDouble>0.6){
+                        for(CellView cellView : cellViewList){
+                            cellView.setBadConnection(true);
+                        }
+
+                        imageView2.setVisible(true);
+                    }else {
+                        for(CellView cellView : cellViewList){
+                            cellView.setBadConnection(false);
+                        }
+
+                        imageView2.setVisible(false);
+                    }
+
+
+
+
+                });
+            }
+        };
+
+        timer.scheduleAtFixedRate(timerTask, 0, 2000);
+/*
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -117,7 +151,7 @@ public class AntenaViewImpl extends AntenaView {
 
 
             }
-        }, 0, 2000);
+        }, 0, 2000);*/
     }
 
 
@@ -141,6 +175,52 @@ public class AntenaViewImpl extends AntenaView {
         }
     }
 
+
+    public static List<AntennaView> getAntennaViewList() {
+        return antennaViewList;
+    }
+
+
+    public static void removeAntennaViewFromList(AntennaView antennaView) {
+        if(antennaViewList.contains(antennaView)){
+            AntennaViewImpl antennaViewImpl = (AntennaViewImpl) antennaView;
+
+            for(CellView cellView : antennaViewImpl.cellViewList){
+                cellView.setBadConnection(false);
+            }
+
+            antennaViewImpl.cellViewList.clear();
+            antennaViewList.remove(antennaView);
+            antennaViewImpl.timerTask.cancel();
+            antennaViewImpl.timer.cancel();
+            antennaViewImpl.timer.purge();
+
+        }
+    }
+
+
+    public static  void addAntennaViewFromList(AntennaView antennaView) {
+        if(!antennaViewList.contains(antennaView)){
+            antennaViewList.add(antennaView);
+        }
+    }
+
+
+
+
+    public static void cleanAntennaViewList() {
+        for(AntennaView antennaView : new ArrayList<>(antennaViewList)){
+            removeAntennaViewFromList(antennaView);
+        }
+    }
+
+
+
+
+    public static void setAntennaViewList(List<AntennaView> antennaViewList) {
+        AntennaViewImpl.antennaViewList = antennaViewList;
+    }
+
     @Override
     public void applyStyleSelected() {
         if(selectedRetangle == null){
@@ -151,6 +231,8 @@ public class AntenaViewImpl extends AntenaView {
             this.getChildren().add(selectedRetangle);
 
         }
+
+
 
 
 

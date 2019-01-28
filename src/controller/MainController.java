@@ -17,17 +17,19 @@ import model.Drone;
 import model.Hospital;
 import view.CellView;
 import view.SelectableView;
-import view.antenna.AntenaView;
-import view.antenna.AntenaViewImpl;
+import view.antenna.AntennaView;
+import view.antenna.AntennaViewImpl;
 import view.drone.DroneView;
 import view.drone.DroneViewImpl;
-import view.hospital.HospitalImpl;
+import view.hospital.HospitalViewImpl;
 import view.hospital.HospitalView;
 import view.res.EnvironmentView;
 import util.DroneAnalyzerLog;
 import view.river.RiverView;
 import view.river.RiverViewImpl;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.*;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -75,10 +77,6 @@ public class MainController extends Application {
 
     private AnchorPane rootAnchorPane;
 
-    private List<RiverView> riverViews = new ArrayList<>();
-    private List<DroneView> droneViews = new ArrayList<>();
-    private List<HospitalView> hospitalViews = new ArrayList<>();
-    private List<AntenaViewImpl> antennaViews = new ArrayList<>();
     private List<SelectableView> selectableViews = new ArrayList<>();
     private SelectableView selectedSelectableView = null;
 
@@ -130,7 +128,7 @@ public class MainController extends Application {
 
     private void clearEnverionment() {
 
-        for (DroneView droneView : droneViews) {
+        for (DroneView droneView : DroneViewImpl.getDroneViewList()) {
             droneView.notifyReset();
         }
 
@@ -147,193 +145,269 @@ public class MainController extends Application {
 
         selectableViews.clear();
         droneViewSelected = null;
-        droneViews.clear();
-        hospitalViews.clear();
-        riverViews.clear();
-        antennaViews.clear();
+        selectedSelectableView = null;
+        DroneViewImpl.cleanDroneViewList();
+        HospitalViewImpl.cleanHospitalViewList();
+        RiverViewImpl.cleanRiverViewList();
+        AntennaViewImpl.cleanAntennaViewList();
 
         loggerController.clear();
 
         DroneViewImpl.COUNT_DRONE = 0;
 
-        HospitalImpl.COUNT_HOSPITAL =0;
+        HospitalViewImpl.COUNT_HOSPITAL =0;
 
-        AntenaViewImpl.COUNT_ANTENNA =0;
+        AntennaViewImpl.COUNT_ANTENNA =0;
     }
 
     private void addExampleLondon() {
 
-        AntenaViewImpl antenaView1 = new AntenaViewImpl(environmentView.getCellFrom(3, 15));
-        antennaViews.add(antenaView1);
+        AntennaViewImpl antenaView1 = new AntennaViewImpl(environmentView.getCellFrom(3, 15));
+        AntennaViewImpl.addAntennaViewFromList(antenaView1);
+        selectableViews.add(antenaView1);
 
-        HospitalImpl hospitalView = new HospitalImpl(environmentView.getCellFrom(3, 0));
-        hospitalViews.add(hospitalView);
+        HospitalViewImpl hospitalView = new HospitalViewImpl(environmentView.getCellFrom(3, 0));
+        HospitalViewImpl.addHospitalViewFromList(hospitalView);
+        selectableViews.add(hospitalView);
 
-        hospitalView = new HospitalImpl(environmentView.getCellFrom(3, 29));
-        hospitalViews.add(hospitalView);
+        hospitalView = new HospitalViewImpl(environmentView.getCellFrom(3, 29));
+        HospitalViewImpl.addHospitalViewFromList(hospitalView);
+        selectableViews.add(hospitalView);
 
         RiverViewImpl riverView1 = null;
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(2, 2));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(2, 3));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
 
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(3, 2));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(3, 3));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(4, 2));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(4, 3));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(4, 4));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(4, 5));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(4, 6));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(4, 7));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(5, 3));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(5, 4));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(5, 5));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(3, 6));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(3, 7));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(3, 8));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(2, 7));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(2, 8));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(2, 9));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(2, 10));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(2, 11));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(2, 12));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(1, 8));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(1, 9));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(1, 10));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(1, 11));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
 
 
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(3, 11));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(3, 12));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(3, 13));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
 
 
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(4, 12));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(4, 13));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(4, 14));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(4, 15));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(4, 16));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(4, 17));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
 
 
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(5, 13));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(5, 14));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(5, 15));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(5, 16));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
 
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(3, 16));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(3, 17));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(3, 18));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
 
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(2, 17));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(2, 18));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(2, 19));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(2, 20));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(2, 21));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(2, 22));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
 
 
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(1, 18));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(1, 19));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(1, 20));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(1, 21));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
 
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(3, 21));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(3, 22));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(3, 23));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
 
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(4, 22));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(4, 23));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(4, 24));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(4, 25));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(4, 26));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(4, 27));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
 
 
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(5, 23));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(5, 24));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(5, 25));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(5, 26));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
 
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(3, 26));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(3, 27));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(3, 28));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(4, 28));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
 
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(2, 26));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(2, 27));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
         riverView1 = new RiverViewImpl(environmentView.getCellFrom(2, 28));
-        riverViews.add(riverView1);
+        RiverViewImpl.addRiverViewFromList(riverView1);
+        selectableViews.add(riverView1);
 
     }
 
@@ -381,7 +455,7 @@ public class MainController extends Application {
             stopRandomStrongWind();
             environmentView.addStrongWind();
 
-            for (DroneView droneView : droneViews) {
+            for (DroneView droneView : DroneViewImpl.getDroneViewList()) {
                 droneView.notifyStrongWind();
             }
         });
@@ -390,7 +464,7 @@ public class MainController extends Application {
             stopRandomStrongWind();
             environmentView.removeStrongWind();
 
-            for (DroneView droneView : droneViews) {
+            for (DroneView droneView : DroneViewImpl.getDroneViewList()) {
                 droneView.notifyNoStrongWind();
             }
         });
@@ -410,7 +484,7 @@ public class MainController extends Application {
                         });
 
 
-                        for (DroneView droneView : droneViews) {
+                        for (DroneView droneView : DroneViewImpl.getDroneViewList()) {
                             droneView.notifyStrongWind();
                         }
 
@@ -421,7 +495,7 @@ public class MainController extends Application {
                             environmentView.removeStrongWind();
                         });
 
-                        for (DroneView droneView : droneViews) {
+                        for (DroneView droneView : DroneViewImpl.getDroneViewList()) {
                             droneView.notifyNoStrongWind();
                         }
                     }
@@ -480,7 +554,7 @@ public class MainController extends Application {
             disableEnvironmentSettingViews();
 
 
-            for (DroneView droneView : droneViews) {
+            for (DroneView droneView : DroneViewImpl.getDroneViewList()) {
                 droneView.notifyRunEnviroment();
             }
 
@@ -493,7 +567,7 @@ public class MainController extends Application {
 
         restartToggleButton.setOnAction(event -> {
 
-            for (DroneView droneView : droneViews) {
+            for (DroneView droneView : DroneViewImpl.getDroneViewList()) {
                 droneView.notifyReset();
             }
 
@@ -521,7 +595,7 @@ public class MainController extends Application {
                 createAntenna();
             } else if (droneToggleButton.isSelected()) {
 
-                if(hospitalViews.size()<2){
+                if(HospitalViewImpl.getHospitalViewList().size()<2){
                     Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "You must add at 2 hospitals \n(first as target and second as target)", ButtonType.OK);
                     alert.showAndWait();
                     return;
@@ -618,6 +692,10 @@ public class MainController extends Application {
                 return;
             }
 
+            if(selectedSelectableView==null){
+                return;
+            }
+
             if(running){
                 return;
             }
@@ -635,14 +713,45 @@ public class MainController extends Application {
 
 
                 selectableViews.remove(selectedSelectableView);
-                selectedSelectableView = null;
+
 
                 if(selectedSelectableView == droneViewSelected){
                     droneViewSelected = null;
                 }
 
-                if(droneViews.contains(selectedSelectableView)){
-                    droneViews.remove(selectedSelectableView);
+                Method removeMethed = null;
+                try {
+                    removeMethed = selectedSelectableView.getClass()
+                            .getMethod("remove"+selectedSelectableView.getClass().getSimpleName()
+                                    .replace("Impl","")+"FromList",selectedSelectableView.getClass().getSuperclass());
+                    removeMethed.invoke(selectedSelectableView, selectedSelectableView);
+                } catch (NoSuchMethodException e) {
+                    e.printStackTrace();
+                } catch (IllegalAccessException e) {
+                    e.printStackTrace();
+                } catch (InvocationTargetException e) {
+                    e.printStackTrace();
+                }
+
+                if(selectedSelectableView instanceof HospitalView){
+                    for(DroneView droneView : new ArrayList<>(DroneViewImpl.getDroneViewList())){
+                        if(((Drone)droneView.getDrone()).getSourceHospital()
+                                == ((HospitalView)selectedSelectableView).getHospital()){
+                            DroneViewImpl.removeDroneViewFromList(droneView);
+                        }
+
+                        if(((Drone)droneView.getDrone()).getDestinyHopistal()
+                                == ((HospitalView)selectedSelectableView).getHospital()){
+                            DroneViewImpl.removeDroneViewFromList(droneView);
+                        }
+                    }
+                }
+
+
+                //  DroneView.removeDroneViewFromList(selectedSelectableView);
+
+              /*  if(DroneView.getDroneViewList().contains(selectedSelectableView)){
+                    DroneView.getDroneViewList().remove(selectedSelectableView);
                 }
 
                 if(antennaViews.contains(selectedSelectableView)){
@@ -655,7 +764,9 @@ public class MainController extends Application {
 
                 if(hospitalViews.contains(selectedSelectableView)){
                     hospitalViews.remove(selectedSelectableView);
-                }
+                }*/
+
+                selectedSelectableView = null;
             }
 
 
@@ -691,8 +802,8 @@ public class MainController extends Application {
 
             selectedDrone.setAspect(wrapperCheckBox.isSelected());
 
-            selectedDrone.setSourceHospital((Hospital) hospitalViews.get(sourceComboBox.getSelectionModel().getSelectedIndex()).getHospital());
-            selectedDrone.setDestinyHopistal((Hospital) hospitalViews.get(targetComboBox.getSelectionModel().getSelectedIndex()).getHospital());
+            selectedDrone.setSourceHospital((Hospital) HospitalViewImpl.getHospitalViewList().get(sourceComboBox.getSelectionModel().getSelectedIndex()).getHospital());
+            selectedDrone.setDestinyHopistal((Hospital) HospitalViewImpl.getHospitalViewList().get(targetComboBox.getSelectionModel().getSelectedIndex()).getHospital());
 
         }
 
@@ -743,8 +854,8 @@ public class MainController extends Application {
             automaticCheckBox.setSelected(selectedDrone.isAutomatic());
             wrapperCheckBox.setSelected(selectedDrone.isAspect());
 
-            List<String> nameHospitals = new ArrayList<>(hospitalViews.size());
-            for(HospitalView hospitalView : hospitalViews){
+            List<String> nameHospitals = new ArrayList<>(HospitalViewImpl.getHospitalViewList().size());
+            for(HospitalView hospitalView : HospitalViewImpl.getHospitalViewList()){
                 nameHospitals.add(String.valueOf(((Hospital)hospitalView.getHospital()).getId()));
             }
 
@@ -780,10 +891,10 @@ public class MainController extends Application {
 
     private DroneView createDrone() {
         DroneViewImpl droneView = new DroneViewImpl((CellView) environmentView.getCellViewSelected(),
-                (Hospital) hospitalViews.get(0).getHospital(),
-                (Hospital) hospitalViews.get(1).getHospital());
+                (Hospital) HospitalViewImpl.getHospitalViewList().get(0).getHospital(),
+                (Hospital) HospitalViewImpl.getHospitalViewList().get(1).getHospital());
 
-        droneViews.add(droneView);
+        DroneViewImpl.addDroneViewFromList(droneView);
         selectableViews.add(droneView);
 
         Drone drone = (Drone) droneView.getDrone();
@@ -794,22 +905,22 @@ public class MainController extends Application {
     }
 
     private HospitalView createHospital() {
-        HospitalImpl hospitalView = new HospitalImpl((CellView) environmentView.getCellViewSelected());
-        hospitalViews.add(hospitalView);
+        HospitalViewImpl hospitalView = new HospitalViewImpl((CellView) environmentView.getCellViewSelected());
+        HospitalViewImpl.addHospitalViewFromList(hospitalView);
         selectableViews.add(hospitalView);
         return hospitalView;
     }
 
     private RiverView createRiver() {
         RiverViewImpl riverView = new RiverViewImpl((CellView) environmentView.getCellViewSelected());
-        riverViews.add(riverView);
+        RiverViewImpl.addRiverViewFromList(riverView);
         selectableViews.add(riverView);
         return riverView;
     }
 
-    private AntenaView createAntenna() {
-        AntenaViewImpl antenaView = new AntenaViewImpl((CellView) environmentView.getCellViewSelected());
-        antennaViews.add(antenaView);
+    private AntennaView createAntenna() {
+        AntennaViewImpl antenaView = new AntennaViewImpl((CellView) environmentView.getCellViewSelected());
+        AntennaViewImpl.addAntennaViewFromList(antenaView);
         selectableViews.add(antenaView);
         return antenaView;
     }

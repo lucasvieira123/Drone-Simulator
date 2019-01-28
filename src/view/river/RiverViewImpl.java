@@ -1,18 +1,16 @@
 package view.river;
 
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import model.River;
 import view.CellView;
 
-;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class RiverViewImpl extends RiverView {
-
-
 
     private final River river;
 
@@ -55,4 +53,36 @@ public class RiverViewImpl extends RiverView {
     public Node getNode() {
         return this;
     }
+
+
+    public void setRiverViewList(List<RiverView> riverViewList) {
+        RiverViewImpl.riverViewList = riverViewList;
+    }
+
+
+    public static void cleanRiverViewList() {
+        for(RiverView riverView : new ArrayList<>(riverViewList)){
+            removeRiverViewFromList(riverView);
+        }
+    }
+
+
+    public static List<RiverView> getRiverViewList() {
+        return riverViewList;
+    }
+
+
+    public static void removeRiverViewFromList(RiverView riverView) {
+        if(riverViewList.contains(riverView)){
+            riverViewList.remove(riverView);
+        }
+    }
+
+
+    public static void addRiverViewFromList(RiverView riverView) {
+        if(!riverViewList.contains(riverView)){
+            riverViewList.add(riverView);
+        }
+    }
 }
+

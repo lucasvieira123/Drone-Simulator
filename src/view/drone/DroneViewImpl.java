@@ -16,6 +16,8 @@ import model.Hospital;
 import view.CellView;
 import view.res.EnvironmentView;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
@@ -48,7 +50,8 @@ public class DroneViewImpl extends DroneView {
     private ScheduledExecutorService returnToHomeExecutor;
 
     private KeyCode currentCommand;
-  /*  private Timer returnToHomeTimer;*/
+
+    /*  private Timer returnToHomeTimer;*/
 
 
 
@@ -1147,5 +1150,32 @@ public class DroneViewImpl extends DroneView {
         drone.setCurrentPositionJ(drone.getCurrentPositionJ()+1);
 
         return calculeteDistanceFrom(hospital);
+    }
+
+
+    public static void cleanDroneViewList() {
+        for(DroneView droneView : new ArrayList<>(droneViewList)){
+            removeDroneViewFromList(droneView);
+        }
+    }
+
+
+
+    public static List<DroneView> getDroneViewList() {
+        return droneViewList;
+    }
+
+
+    public static void removeDroneViewFromList(DroneView droneView) {
+        if(droneViewList.contains(droneView)){
+            droneViewList.remove(droneView);
+        }
+    }
+
+
+    public static void addDroneViewFromList(DroneView droneView) {
+        if(!droneViewList.contains(droneView)){
+            droneViewList.add(droneView);
+        }
     }
 }

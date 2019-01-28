@@ -1,6 +1,5 @@
 package view.hospital;
 
-import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
@@ -8,10 +7,16 @@ import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
+import model.Drone;
 import model.Hospital;
 import view.CellView;
+import view.drone.DroneView;
+import view.drone.DroneViewImpl;
 
-public class HospitalImpl extends HospitalView {
+import java.util.ArrayList;
+import java.util.List;
+
+public class HospitalViewImpl extends HospitalView {
     public static  int COUNT_HOSPITAL = 0;
     public static double width = 64;
     public static double height = 64;
@@ -21,7 +26,7 @@ public class HospitalImpl extends HospitalView {
     private Rectangle selectedRetangle;
 
 
-    public HospitalImpl(CellView cellViewSelected) {
+    public HospitalViewImpl(CellView cellViewSelected) {
 
         COUNT_HOSPITAL++;
 
@@ -72,6 +77,42 @@ public class HospitalImpl extends HospitalView {
             this.getChildren().add(selectedRetangle);
 
         }
+    }
+
+
+    public static void cleanHospitalViewList() {
+        for(HospitalView hospitalView : new ArrayList<>(hospitalViewList)){
+            removeHospitalViewFromList(hospitalView);
+        }
+    }
+
+
+    public static List<HospitalView> getHospitalViewList() {
+        return hospitalViewList;
+    }
+
+
+    public static void removeHospitalViewFromList(HospitalView hospitalView) {
+        if(hospitalViewList.contains(hospitalView)){
+            hospitalViewList.remove(hospitalView);
+        }
+
+       /* for(DroneView droneView : new ArrayList<>(DroneViewImpl.droneViewList)){
+            if(((Drone)droneView.getDrone()).getDestinyHopistal()==(Hospital) hospitalView.getHospital()){
+                DroneViewImpl.removeDroneViewFromList(droneView);
+            }
+            if(((Drone)droneView.getDrone()).getSourceHospital()==(Hospital) hospitalView.getHospital()){
+                DroneViewImpl.removeDroneViewFromList(droneView);
+            }
+        }*/
+    }
+
+
+    public static void addHospitalViewFromList(HospitalView hospitalView) {
+        if(!hospitalViewList.contains(hospitalView)){
+            hospitalViewList.add(hospitalView);
+        }
+
     }
 }
 

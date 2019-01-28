@@ -5,8 +5,11 @@ import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
 import view.SelectableView;
 
-public abstract class DroneView extends Group implements SelectableView {
+import java.util.ArrayList;
+import java.util.List;
 
+public abstract class DroneView extends Group implements SelectableView {
+    static public List<DroneView> droneViewList = new ArrayList<>();
 
     @Override
     public Node getNode() {
@@ -58,4 +61,16 @@ public abstract class DroneView extends Group implements SelectableView {
     public void eventKey(KeyCode code) {
 
     }
+
+   /* public static void cleanDroneViewList() {}
+
+    public static List<DroneView> getDroneViewList() {
+        return droneViewList;
+    }
+
+    public static void removeDroneViewFromList(DroneView droneView) {}
+
+    public static void addDroneViewFromList(DroneView droneView){
+
+    }*/
 }
