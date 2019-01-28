@@ -2,6 +2,7 @@ package model;
 
 
 import javafx.scene.shape.Rectangle;
+import view.river.RiverView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -320,7 +321,7 @@ public class Drone {
             return false;
         }
         for(Object object :onTopOfList){
-            if(object instanceof Rectangle){
+            if(object instanceof RiverView){
                 return true;
             }
         }

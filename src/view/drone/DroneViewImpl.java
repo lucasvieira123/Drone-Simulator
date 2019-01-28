@@ -113,11 +113,6 @@ public class DroneViewImpl extends DroneView {
 
     synchronized private void checkStatus() {
 
-    /*    if(drone.isSafeLand()){
-            return;
-        }
-*/
-
         if(drone.getCurrentBattery()>10 && drone.getDistanceHospitalDestiny()>0 && commandWasPerformed()
                 && drone.isManual() && !drone.isGoingManualToDestiny()&& !drone.isReturningToHome()
                 && !drone.isBadConnection()

@@ -6,7 +6,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public aspect Aspect {
-    pointcut safeLanding() : call (void view.drone.DroneViewImpl.safeLanding());
+    private boolean isMoveAside; pointcut safeLanding() : call (void view.drone.DroneViewImpl.safeLanding());
 
 
     void around() : safeLanding() && if(
@@ -63,6 +63,10 @@ public aspect Aspect {
 
     private void moveASide(DroneViewImpl droneView) {
 
+        if(isMoveAside){
+            return;
+        }
+
         Drone drone = (Drone) droneView.getDrone();
 
         if(drone.isGoingAutomaticToDestiny()  || drone.isAutomatic()){
@@ -86,7 +90,7 @@ public aspect Aspect {
             public void run() {
 
                 Platform.runLater(() -> {
-                    drone.setCurrentPositionI(drone.getCurrentPositionI() - 1);
+                    droneView.flyingUp();
 
                     droneView.updadePositionDroneView();
                     droneView.updateItIsOver();
@@ -95,7 +99,7 @@ public aspect Aspect {
 
                     if (!drone.isOnWater()) {
                         safeLandingAspect(droneView);
-
+                        isMoveAside=false;
                         cancel();
                         return;
                     }
