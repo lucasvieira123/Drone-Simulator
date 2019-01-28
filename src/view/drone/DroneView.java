@@ -1,35 +1,61 @@
-package view;
+package view.drone;
 
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.input.KeyCode;
+import view.SelectableView;
 
-public interface DroneView extends SelectableView {
+public abstract class DroneView extends Group implements SelectableView {
 
-
-    @Override
-    Node getNode();
 
     @Override
-    void removeStyleSelected();
+    public Node getNode() {
+        return null;
+    }
 
     @Override
-    void applyStyleSelected();
+    public void removeStyleSelected() {
 
-    Object getDrone();
+    }
 
-    void notifyRunEnviroment();
+    @Override
+    public void applyStyleSelected() {
 
-    void notifyBadConnection();
+    }
 
-    void notifyNormalConnection();
+    public Object getDrone() {
+        return null;
+    }
 
-    void notifyStopEnviroment();
+    public void notifyRunEnviroment() {
 
-    void notifyStrongWind();
+    }
 
-    void notifyNoStrongWind();
+    public void notifyBadConnection() {
 
-    void notifyReset();
+    }
 
-    void eventKey(KeyCode code);
+    public void notifyNormalConnection() {
+
+    }
+
+    void notifyStopEnviroment() {
+
+    }
+
+    public void notifyStrongWind() {
+
+    }
+
+    public void notifyNoStrongWind() {
+
+    }
+
+    public void notifyReset() {
+
+    }
+
+    public void eventKey(KeyCode code) {
+
+    }
 }

@@ -1,4 +1,4 @@
-package view;
+package view.drone;
 
 
 import controller.LoggerController;
@@ -13,20 +13,20 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import model.Drone;
 import model.Hospital;
+import view.CellView;
 import view.res.EnvironmentView;
 
 import java.util.Random;
-import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 
-public class DroneViewImpl extends Group implements DroneView {
+public class DroneViewImpl extends DroneView {
 
     private final EnvironmentView environmentView;
-    private Cell currentCell;
+    private CellView currentCellView;
     private Drone drone;
     public static double WIDTH = 24;
     public static double HEIGHT = 24;
@@ -52,18 +52,18 @@ public class DroneViewImpl extends Group implements DroneView {
 
 
 
-    public DroneViewImpl(Cell currentCell, Hospital sourceHospital, Hospital destinyHopistal) {
+    public DroneViewImpl(CellView currentCellView, Hospital sourceHospital, Hospital destinyHopistal) {
 
 
         imageViewBadConnection.setVisible(false);
 
 
 
-        environmentView = currentCell.getEnvironmentView();
-        this.currentCell = currentCell;
+        environmentView = currentCellView.getEnvironmentView();
+        this.currentCellView = currentCellView;
         COUNT_DRONE++;
 
-        drone = new Drone(COUNT_DRONE, currentCell.getI(), currentCell.getJ(), sourceHospital, destinyHopistal);
+        drone = new Drone(COUNT_DRONE, currentCellView.getI(), currentCellView.getJ(), sourceHospital, destinyHopistal);
 
         double distanceHospitalSource = calculeteDistanceFrom(drone.getSourceHospital());
         double distanceHospitalDestiny = calculeteDistanceFrom(drone.getDestinyHopistal());
@@ -80,7 +80,7 @@ public class DroneViewImpl extends Group implements DroneView {
 
         getChildren().addAll(imageViewDrone,label, imageViewBadConnection);
 
-        currentCell.getChildren().add(this);
+        currentCellView.getChildren().add(this);
 
 
     }
@@ -148,7 +148,7 @@ public class DroneViewImpl extends Group implements DroneView {
             return;
         }
 
-        if(currentCell.isBadConnection() && !drone.isReturningToHome() && !drone.isBadConnection()){
+        if(currentCellView.isBadConnection() && !drone.isReturningToHome() && !drone.isBadConnection()){
             notifyBadConnection();
 
             System.out.println("Drone["+drone.getId()+"] "+"Bad Connection");
@@ -164,7 +164,7 @@ public class DroneViewImpl extends Group implements DroneView {
 
             returnToHome();
 
-        }if(!currentCell.isBadConnection() && !drone.isReturningToHome() && drone.isBadConnection()){
+        }if(!currentCellView.isBadConnection() && !drone.isReturningToHome() && drone.isBadConnection()){
             applyStyleNormalConnection();
 
             notifyNormalConnection();
@@ -555,24 +555,24 @@ public class DroneViewImpl extends Group implements DroneView {
 
     synchronized public void updadePositionDroneView() {
 
-        if(currentCell== null){
+        if(currentCellView == null){
             return;
         }
 
-        if(currentCell!= null &&currentCell.getChildren()!= null){
-            if(currentCell.getChildren().contains(this)){
-                currentCell.getChildren().remove(this);
+        if(currentCellView != null && currentCellView.getChildren()!= null){
+            if(currentCellView.getChildren().contains(this)){
+                currentCellView.getChildren().remove(this);
             }
         }
 
 
         System.out.println((drone.getCurrentPositionI()+" "+drone.getCurrentPositionJ()));
-        Cell newCell = environmentView.getCellFrom(drone.getCurrentPositionI(),drone.getCurrentPositionJ());
-        currentCell = newCell;
+        CellView newCellView = environmentView.getCellFrom(drone.getCurrentPositionI(),drone.getCurrentPositionJ());
+        currentCellView = newCellView;
 
-        if(currentCell!= null && currentCell.getChildren()!= null){
-            if(!currentCell.getChildren().contains(this)){
-                currentCell.getChildren().add(this);
+        if(currentCellView != null && currentCellView.getChildren()!= null){
+            if(!currentCellView.getChildren().contains(this)){
+                currentCellView.getChildren().add(this);
             }
         }
 
@@ -601,7 +601,7 @@ public class DroneViewImpl extends Group implements DroneView {
 
     synchronized public Node updateItIsOver() {
 
-        if(currentCell== null){
+        if(currentCellView == null){
              return null;
         }
 
@@ -609,7 +609,7 @@ public class DroneViewImpl extends Group implements DroneView {
 
 
 
-        for(Node node :currentCell.getChildren()){
+        for(Node node : currentCellView.getChildren()){
 
             if(node==this){
                 continue;

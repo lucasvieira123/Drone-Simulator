@@ -5,7 +5,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.*;
-import view.Cell;
+import view.CellView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +14,8 @@ public class EnvironmentView {
 
     private final GridPane gridpane;
     private final AnchorPane environmentAnchorPane;
-    private List<Cell> cells = new ArrayList<>();
-    private Cell cellSelected;
+    private List<CellView> cellViews = new ArrayList<>();
+    private CellView cellViewSelected;
     private KeyCode keySelected;
     private ImageView windImagemView = new ImageView(new Image("/view/res/wind.png"));
 
@@ -49,29 +49,29 @@ public class EnvironmentView {
 
     private void addPane(int colIndex, int rowIndex) {
 
-        Cell cell = new Cell(rowIndex, colIndex, this);
+        CellView cellView = new CellView(rowIndex, colIndex, this);
 
 
-        cell.setOnMouseClicked(e -> {
-           /* System.out.printf("Mouse enetered cell [%d, %d]%n", rowIndex, colIndex);*/
-            cellSelected = cell;
+        cellView.setOnMouseClicked(e -> {
+           /* System.out.printf("Mouse enetered cellView [%d, %d]%n", rowIndex, colIndex);*/
+            cellViewSelected = cellView;
         });
 
-         cell.setOnKeyPressed(event -> {
+         cellView.setOnKeyPressed(event -> {
             keySelected = event.getCode();
          });
 
 
-        gridpane.add(cell, colIndex, rowIndex);
-        cells.add(cell);
+        gridpane.add(cellView, colIndex, rowIndex);
+        cellViews.add(cellView);
     }
 
-    public List<Cell> getCells() {
-        return cells;
+    public List<CellView> getCellViews() {
+        return cellViews;
     }
 
-    public Pane getCellSelected() {
-        return cellSelected;
+    public Pane getCellViewSelected() {
+        return cellViewSelected;
     }
 
     public GridPane getGridpane() {
@@ -82,10 +82,10 @@ public class EnvironmentView {
         return keySelected;
     }
 
-    public Cell getCellFrom(int i, int j){
-        for(Cell cell : cells){
-            if(cell.getI() == i && cell.getJ() == j){
-                return cell;
+    public CellView getCellFrom(int i, int j){
+        for(CellView cellView : cellViews){
+            if(cellView.getI() == i && cellView.getJ() == j){
+                return cellView;
             }
         }
         return null;

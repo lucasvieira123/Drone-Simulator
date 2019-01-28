@@ -1,12 +1,12 @@
 import javafx.application.Platform;
 import model.Drone;
-import view.DroneViewImpl;
+import view.drone.DroneViewImpl;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 public aspect Aspect {
-    pointcut safeLanding() : call (void view.DroneViewImpl.safeLanding());
+    pointcut safeLanding() : call (void view.drone.DroneViewImpl.safeLanding());
 
 
     void around() : safeLanding() && if(
@@ -314,7 +314,7 @@ public aspect Aspect {
 
 
 
-    pointcut applyEconimicMode() : call (void view.DroneViewImpl.applyEconomyMode());
+    pointcut applyEconimicMode() : call (void view.drone.DroneViewImpl.applyEconomyMode());
     void around() : applyEconimicMode() &&
             if(((Drone)((DroneViewImpl) thisJoinPoint.getTarget()).getDrone()).isAspect())
             {
@@ -345,7 +345,7 @@ public aspect Aspect {
 
 
 
-    pointcut returnToHome() : call (void view.DroneViewImpl.returnToHome());
+    pointcut returnToHome() : call (void view.drone.DroneViewImpl.returnToHome());
     void around() : returnToHome() &&
             if(
             (

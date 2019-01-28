@@ -1,4 +1,4 @@
-package view;
+package view.antenna;
 
 import javafx.application.Platform;
 import javafx.scene.Group;
@@ -7,30 +7,36 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.TextAlignment;
 import model.Antenna;
+import view.CellView;
 import view.res.EnvironmentView;
 
 import java.util.*;
 
-public class AntenaViewImpl extends Group implements AntenaView {
+public class AntenaViewImpl extends AntenaView {
 
 
     public static int COUNT_ANTENNA = 0;
     private final Antenna antena;
     private final ImageView imageView2;
+    private final CellView cellViewSelected;
     private ImageView imageView;
-    private List<Cell> cellList = new ArrayList<>();
+    private List<CellView> cellViewList = new ArrayList<>();
+    private Rectangle selectedRetangle;
 
-    public AntenaViewImpl(Cell cellSelected) {
-        EnvironmentView environmentView = cellSelected.getEnvironmentView();
 
-        getBadConnectionArea(cellSelected);
+    public AntenaViewImpl(CellView cellViewSelected) {
+        this.cellViewSelected =  cellViewSelected;
+        EnvironmentView environmentView = cellViewSelected.getEnvironmentView();
+
+        getBadConnectionArea(cellViewSelected);
 
 
         COUNT_ANTENNA++;
 
-        antena = new Antenna(COUNT_ANTENNA, cellSelected.getI(), cellSelected.getJ());
+        antena = new Antenna(COUNT_ANTENNA, cellViewSelected.getI(), cellViewSelected.getJ());
 
         Label label = new Label();
         label.setText(String.valueOf(COUNT_ANTENNA));
@@ -49,26 +55,26 @@ public class AntenaViewImpl extends Group implements AntenaView {
         this.getChildren().addAll(imageView2);
         imageView2.setVisible(false);
 
-        cellSelected.getChildren().add(this);
+        cellViewSelected.getChildren().add(this);
 
         addbadConnectionInSpecificArea();
     }
 
-    private void getBadConnectionArea( Cell cellSelected) {
-        EnvironmentView environmentView = cellSelected.getEnvironmentView();
+    private void getBadConnectionArea( CellView cellViewSelected) {
+        EnvironmentView environmentView = cellViewSelected.getEnvironmentView();
 
-        int i = cellSelected.getI();
-        int j = cellSelected.getJ();
+        int i = cellViewSelected.getI();
+        int j = cellViewSelected.getJ();
 
-        cellList.add(environmentView.getCellFrom(i-1,j-1));
-        cellList.add(environmentView.getCellFrom(i-1,j));
-        cellList.add(environmentView.getCellFrom(i-1,j+1));
-        cellList.add(environmentView.getCellFrom(i,j-1));
-        cellList.add(environmentView.getCellFrom(i,j));
-        cellList.add(environmentView.getCellFrom(i,j+1));
-        cellList.add(environmentView.getCellFrom(i+1,j-1));
-        cellList.add(environmentView.getCellFrom(i+1,j));
-        cellList.add(environmentView.getCellFrom(i+1,j+1));
+        cellViewList.add(environmentView.getCellFrom(i-1,j-1));
+        cellViewList.add(environmentView.getCellFrom(i-1,j));
+        cellViewList.add(environmentView.getCellFrom(i-1,j+1));
+        cellViewList.add(environmentView.getCellFrom(i,j-1));
+        cellViewList.add(environmentView.getCellFrom(i,j));
+        cellViewList.add(environmentView.getCellFrom(i,j+1));
+        cellViewList.add(environmentView.getCellFrom(i+1,j-1));
+        cellViewList.add(environmentView.getCellFrom(i+1,j));
+        cellViewList.add(environmentView.getCellFrom(i+1,j+1));
     }
 
 
@@ -87,14 +93,14 @@ public class AntenaViewImpl extends Group implements AntenaView {
                 Platform.runLater(() -> {
 
                     if(randomDouble>0.6){
-                        for(Cell cell : cellList){
-                            cell.setBadConnection(true);
+                        for(CellView cellView : cellViewList){
+                            cellView.setBadConnection(true);
                         }
 
                         imageView2.setVisible(true);
                     }else {
-                        for(Cell cell : cellList){
-                            cell.setBadConnection(false);
+                        for(CellView cellView : cellViewList){
+                            cellView.setBadConnection(false);
                         }
 
                         imageView2.setVisible(false);
@@ -126,5 +132,28 @@ public class AntenaViewImpl extends Group implements AntenaView {
         return this;
     }
 
+    @Override
+    public void removeStyleSelected() {
+        if(selectedRetangle!= null){
+            this.getChildren().remove(selectedRetangle);
 
+            selectedRetangle = null;
+        }
+    }
+
+    @Override
+    public void applyStyleSelected() {
+        if(selectedRetangle == null){
+            selectedRetangle = new Rectangle(30,30);
+            selectedRetangle.setFill(Color.TRANSPARENT);
+            selectedRetangle.setStrokeWidth(3);
+            selectedRetangle.setStroke(Color.BLUE);
+            this.getChildren().add(selectedRetangle);
+
+        }
+
+
+
+
+    }
 }

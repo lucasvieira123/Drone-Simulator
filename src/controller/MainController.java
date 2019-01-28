@@ -15,16 +15,21 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.Drone;
 import model.Hospital;
-import view.Cell;
-import view.*;
+import view.CellView;
+import view.SelectableView;
+import view.antenna.AntenaView;
+import view.antenna.AntenaViewImpl;
+import view.drone.DroneView;
+import view.drone.DroneViewImpl;
+import view.hospital.HospitalImpl;
+import view.hospital.HospitalView;
 import view.res.EnvironmentView;
 import util.DroneAnalyzerLog;
+import view.river.RiverView;
+import view.river.RiverViewImpl;
 
 import java.util.*;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class MainController extends Application {
 
@@ -62,7 +67,7 @@ public class MainController extends Application {
     CheckBox automaticCheckBox, wrapperCheckBox;
 
     @FXML
-    Button saveButton;
+    Button saveButton, deleteButton, cleanButton;
 
     @FXML
     ComboBox<String> sourceComboBox, targetComboBox;
@@ -70,12 +75,15 @@ public class MainController extends Application {
 
     private AnchorPane rootAnchorPane;
 
-    public List<RiverView> riverViews = new ArrayList<>();
-    public List<DroneView> droneViews = new ArrayList<>();
-    public List<HospitalView> hospitalViews = new ArrayList<>();
+    private List<RiverView> riverViews = new ArrayList<>();
+    private List<DroneView> droneViews = new ArrayList<>();
+    private List<HospitalView> hospitalViews = new ArrayList<>();
     private List<AntenaViewImpl> antennaViews = new ArrayList<>();
+    private List<SelectableView> selectableViews = new ArrayList<>();
+    private SelectableView selectedSelectableView = null;
+
     private boolean running = false;
-    private DroneViewImpl droneViewSelected;
+    private DroneView droneViewSelected;
     private boolean droneToggleButtonIsSelected = false;
     private boolean badConnection;
     private LoggerController loggerController = LoggerController.getInstance();
@@ -121,16 +129,23 @@ public class MainController extends Application {
     }
 
     private void clearEnverionment() {
-        for(Cell cell : environmentView.getCells()){
-            cell.getChildren().clear();
-        }
-
-
 
         for (DroneView droneView : droneViews) {
             droneView.notifyReset();
         }
 
+        for(CellView cellView : environmentView.getCellViews()){
+            if(cellView.getChildren().size()!=0){
+                cellView.getChildren().clear();
+            }
+
+        }
+
+
+
+
+
+        selectableViews.clear();
         droneViewSelected = null;
         droneViews.clear();
         hospitalViews.clear();
@@ -522,24 +537,34 @@ public class MainController extends Application {
             }
 
 
-            DroneView droneView = getDroneViewFromCell(environmentView.getCellSelected());
+            SelectableView selectableView = (SelectableView) getViewFromCell(environmentView.getCellViewSelected());
 
-            for (DroneView droneView1 : droneViews) {
-                droneView1.removeStyleSelected();
+            for (SelectableView selectableView1 : selectableViews) {
+                selectableView1.removeStyleSelected();
             }
 
-            if (droneView != null) {
-                updateSelectedDrone((DroneViewImpl) droneView);
-                updateDroneSettingsViews();
+            if(selectableView != null){
+                selectedSelectableView = selectableView;
+                selectableView.applyStyleSelected();
 
-                enableDroneSettingsViews();
+                if(selectableView instanceof DroneView){
+                    DroneView droneView = (DroneView) selectableView;
+                    droneViewSelected = droneView;
 
-            } else {
-                droneViewSelected = null;
-                updateDroneSettingsViews();
-                disableDroneSettingsViews();
+                    updateSelectedDrone((DroneViewImpl) droneView);
+                    updateDroneSettingsViews();
 
+                    enableDroneSettingsViews();
+                }else {
+
+                    droneViewSelected = null;
+                    updateDroneSettingsViews();
+                    disableDroneSettingsViews();
+
+                }
             }
+
+
 
 
         });
@@ -550,7 +575,6 @@ public class MainController extends Application {
             }
 
             if (droneViewSelected != null) {
-
                 droneViewSelected.eventKey(event.getCode());
 
 
@@ -558,6 +582,73 @@ public class MainController extends Application {
 
         });
 
+        cleanButton.setOnAction(event -> {
+            if(running){
+                return;
+            }
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to clean this environment?", ButtonType.YES ,ButtonType.CANCEL);
+            alert.showAndWait();
+
+            if(alert.getResult() == ButtonType.YES){
+                riverToggleButton.setSelected(false);
+                droneToggleButton.setSelected(false);
+                antennaToggleButton.setSelected(false);
+                hospitalToggleButton.setSelected(false);
+
+                clearEnverionment();
+            }
+
+
+
+
+        });
+
+        deleteButton.setOnAction(event -> {
+            if(running){
+                return;
+            }
+
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure you want to delete this view?", ButtonType.YES ,ButtonType.CANCEL);
+            alert.showAndWait();
+
+            if(alert.getResult() == ButtonType.YES){
+                for(CellView cellView : environmentView.getCellViews()){
+                    if(cellView.getChildren().contains(selectedSelectableView)){
+                        cellView.getChildren().remove(selectedSelectableView);
+                    }
+                }
+
+
+
+                selectableViews.remove(selectedSelectableView);
+                selectedSelectableView = null;
+
+                if(selectedSelectableView == droneViewSelected){
+                    droneViewSelected = null;
+                }
+
+                if(droneViews.contains(selectedSelectableView)){
+                    droneViews.remove(selectedSelectableView);
+                }
+
+                if(antennaViews.contains(selectedSelectableView)){
+                    antennaViews.remove(selectedSelectableView);
+                }
+
+                if(riverViews.contains(selectedSelectableView)){
+                    riverViews.remove(selectedSelectableView);
+                }
+
+                if(hospitalViews.contains(selectedSelectableView)){
+                    hospitalViews.remove(selectedSelectableView);
+                }
+            }
+
+
+
+
+        });
 
 
     }
@@ -671,15 +762,16 @@ public class MainController extends Application {
 
     private void updateSelectedDrone(DroneViewImpl droneView) {
         droneViewSelected = droneView;
-        droneView.setStyleSelected();
+        droneView.applyStyleSelected();
     }
 
     private DroneView createDrone() {
-        DroneViewImpl droneView = new DroneViewImpl((Cell) environmentView.getCellSelected(),
+        DroneViewImpl droneView = new DroneViewImpl((CellView) environmentView.getCellViewSelected(),
                 (Hospital) hospitalViews.get(0).getHospital(),
                 (Hospital) hospitalViews.get(1).getHospital());
 
         droneViews.add(droneView);
+        selectableViews.add(droneView);
 
         Drone drone = (Drone) droneView.getDrone();
 
@@ -689,20 +781,23 @@ public class MainController extends Application {
     }
 
     private HospitalView createHospital() {
-        HospitalImpl hospitalView = new HospitalImpl((Cell) environmentView.getCellSelected());
+        HospitalImpl hospitalView = new HospitalImpl((CellView) environmentView.getCellViewSelected());
         hospitalViews.add(hospitalView);
+        selectableViews.add(hospitalView);
         return hospitalView;
     }
 
     private RiverView createRiver() {
-        RiverViewImpl riverView = new RiverViewImpl((Cell) environmentView.getCellSelected());
+        RiverViewImpl riverView = new RiverViewImpl((CellView) environmentView.getCellViewSelected());
         riverViews.add(riverView);
+        selectableViews.add(riverView);
         return riverView;
     }
 
     private AntenaView createAntenna() {
-        AntenaViewImpl antenaView = new AntenaViewImpl((Cell) environmentView.getCellSelected());
+        AntenaViewImpl antenaView = new AntenaViewImpl((CellView) environmentView.getCellViewSelected());
         antennaViews.add(antenaView);
+        selectableViews.add(antenaView);
         return antenaView;
     }
 
@@ -711,6 +806,8 @@ public class MainController extends Application {
         hospitalToggleButton.setDisable(true);
         droneToggleButton.setDisable(true);
         antennaToggleButton.setDisable(true);
+        deleteButton.setDisable(true);
+        cleanButton.setDisable(true);
     }
 
     private void enableEnvironmentSettingViews() {
@@ -719,6 +816,8 @@ public class MainController extends Application {
         hospitalToggleButton.setDisable(false);
         droneToggleButton.setDisable(false);
         antennaToggleButton.setDisable(false);
+        deleteButton.setDisable(false);
+        cleanButton.setDisable(false);
     }
 
     private void disableDroneSettingsViews() {
@@ -794,6 +893,20 @@ public class MainController extends Application {
         }
 
         return null;
+
+    }
+
+    private Node getViewFromCell(Pane cellSelected) {
+
+        if (cellSelected.getChildren().isEmpty()) {
+            return null;
+        }
+
+        Node node = cellSelected.getChildren().get(cellSelected.getChildren().size() - 1);
+
+
+
+        return node;
 
     }
 

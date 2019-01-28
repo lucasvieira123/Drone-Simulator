@@ -4,12 +4,12 @@ package view;
 import javafx.scene.layout.Pane;
 import view.res.EnvironmentView;
 
-public class Cell extends Pane {
+public class CellView extends Pane {
     private final EnvironmentView environmentView;
     private int i,j;
     private boolean isBadConnection;
 
-    public Cell(int i, int j, EnvironmentView environmentView) {
+    public CellView(int i, int j, EnvironmentView environmentView) {
         this.environmentView = environmentView;
         this.i = i;
         this.j = j;
@@ -19,7 +19,7 @@ public class Cell extends Pane {
         return isBadConnection;
     }
 
-    public Cell setBadConnection(boolean badConnection) {
+    public CellView setBadConnection(boolean badConnection) {
         isBadConnection = badConnection;
         return this;
     }
@@ -28,7 +28,7 @@ public class Cell extends Pane {
         return i;
     }
 
-    public Cell setI(int i) {
+    public CellView setI(int i) {
         this.i = i;
         return this;
     }
@@ -37,7 +37,7 @@ public class Cell extends Pane {
         return j;
     }
 
-    public Cell setJ(int j) {
+    public CellView setJ(int j) {
         this.j = j;
         return this;
     }
