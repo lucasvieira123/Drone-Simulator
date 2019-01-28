@@ -562,6 +562,8 @@ public class MainController extends Application {
                     disableDroneSettingsViews();
 
                 }
+            }else {
+                selectedSelectableView = null;
             }
 
 
@@ -570,6 +572,7 @@ public class MainController extends Application {
         });
 
         environmentView.getGridpane().setOnKeyPressed(event -> {
+
             if (!running) {
                 return;
             }
@@ -583,6 +586,11 @@ public class MainController extends Application {
         });
 
         cleanButton.setOnAction(event -> {
+
+            if(selectableViews.size()==0){
+                return;
+            }
+
             if(running){
                 return;
             }
@@ -605,6 +613,11 @@ public class MainController extends Application {
         });
 
         deleteButton.setOnAction(event -> {
+
+            if(selectableViews.size()==0){
+                return;
+            }
+
             if(running){
                 return;
             }
