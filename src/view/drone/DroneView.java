@@ -1,10 +1,21 @@
 package view;
 
 import javafx.scene.Node;
+import javafx.scene.input.KeyCode;
 
-public interface DroneView {
-    Object getDrone();
+public interface DroneView extends SelectableView {
+
+
+    @Override
     Node getNode();
+
+    @Override
+    void removeStyleSelected();
+
+    @Override
+    void applyStyleSelected();
+
+    Object getDrone();
 
     void notifyRunEnviroment();
 
@@ -14,11 +25,11 @@ public interface DroneView {
 
     void notifyStopEnviroment();
 
-    void removeStyleSelected();
-
     void notifyStrongWind();
 
     void notifyNoStrongWind();
 
     void notifyReset();
+
+    void eventKey(KeyCode code);
 }

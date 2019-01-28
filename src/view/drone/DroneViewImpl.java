@@ -85,7 +85,7 @@ public class DroneViewImpl extends Group implements DroneView {
 
     }
 
-
+    @Override
     public void eventKey(KeyCode keyCode) {
         if(!isValidKeyCode(keyCode)){
             return;
@@ -899,12 +899,15 @@ public class DroneViewImpl extends Group implements DroneView {
     }
 
 
-    public void setStyleSelected() {
-        imageViewDrone.setImage(new Image("/view/res/selectedDrone.png"));
-    }
 
+    @Override
     public void removeStyleSelected(){
         imageViewDrone.setImage(new Image("/view/res/notSelectedDrone.png"));
+    }
+
+    @Override
+    public void applyStyleSelected() {
+        imageViewDrone.setImage(new Image("/view/res/selectedDrone.png"));
     }
 
     @Override
